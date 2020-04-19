@@ -10,7 +10,7 @@ jobs:
         os:
           - ubuntu-18.04
           - macos-10.14
-            -
+
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -25,4 +25,5 @@ jobs:
           CI: true
       - run: npm run test:cloud-coverage
         if: success() || failure()
-      - run: bash <(curl -s https://codecov.io/bash)
+      - run: bash <(curl -s https://codecov.io/bash) -f coverage.json
+        if: success() || failure()
