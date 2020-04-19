@@ -29,4 +29,3 @@ build/
 .DS_Store
 
 .nyc_output
-coverage.json

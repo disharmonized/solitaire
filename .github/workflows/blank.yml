@@ -25,5 +25,5 @@ jobs:
           CI: true
       - run: npm run test:cloud-coverage
         if: success() || failure()
-      - run: bash <(curl -s https://codecov.io/bash) -f coverage.json
+      - run: bash <(curl -s https://codecov.io/bash) -f coverage/coverage-final.json
         if: success() || failure()
