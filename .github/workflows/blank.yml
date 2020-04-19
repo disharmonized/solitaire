@@ -21,7 +21,7 @@ jobs:
       - run: npm install
       - run: npm run build --if-present
       - run: npm test
-        if: succeeded() || failed()
+        if: success() || failure()
         env:
           CI: true
       - run: bash <(curl -s https://codecov.io/bash)
