@@ -104,7 +104,7 @@ export class CardStack {
   /**
    * Checks if current card stack is empty (contains no cards)
    */
-  isEmpty(): boolean {
+  get isEmpty(): boolean {
     return this.cardStack.length === 0;
   }
 
