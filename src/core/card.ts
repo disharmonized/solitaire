@@ -14,7 +14,7 @@ export class Card {
    * @param {*} rank From 1 to 13 (1 - Ace, 11 - Jack, 12 - Quenn, 13 - King)
    * @param {*} isFacedUp Whether card is faced up or not
    */
-  constructor(suit: Suit, rank: number, isFacedUp: boolean) {
+  constructor(suit: Suit, rank: number, isFacedUp = false) {
     this._suit = suit;
     //todo validate
     this._rank = rank;
