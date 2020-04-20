@@ -1,6 +1,7 @@
 import * as assert from 'assert';
-import { CardStack } from '../../src/core';
+import { CardStack } from 'core';
 import { createQueenOfSpades } from './testUtils/cardUtil';
+
 describe('CardStack', function() {
   describe('##isEmpty()', function() {
     it('should return true is card stack is empty', function() {

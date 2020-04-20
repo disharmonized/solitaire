@@ -1,4 +1,4 @@
-import { Suit } from '../core';
+import { Suit } from 'core';
 
 /**
  * Card class

@@ -1,6 +1,7 @@
 import * as assert from 'assert';
-import { Suit, SpecialRank } from '../../src/core';
+import { Suit, SpecialRank } from 'core';
 import { createQueenOfSpades } from './testUtils/cardUtil';
+
 describe('Card', function() {
   let card;
   beforeEach(function() {

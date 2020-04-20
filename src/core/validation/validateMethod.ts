@@ -1,4 +1,4 @@
-import { ValidationUtil } from './validationUtil';
+import { ValidationUtil } from 'core/validation/validationUtil';
 
 export function validate(target: unknown, propertyName: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   const originalValue = descriptor.value;

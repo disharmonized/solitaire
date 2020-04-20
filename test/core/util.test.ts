@@ -1,5 +1,6 @@
 import * as assert from 'assert';
-import { Util } from '../../src/core/util';
+import { Util } from 'core/util';
+
 describe('Util', function() {
   describe('#createArrayOfSeqIndexes()', function() {
     it('should return correct value for N=1', function() {

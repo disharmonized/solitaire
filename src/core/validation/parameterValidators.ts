@@ -1,5 +1,5 @@
-import { ValidationUtil } from './validationUtil';
-import { INVALID_CARD_INDEX } from '../errorMessages';
+import { ValidationUtil } from 'core/validation/validationUtil';
+import { INVALID_CARD_INDEX } from 'core/errorMessages';
 
 function isValidCardIndexCheck(index: number): boolean {
   return Number.isInteger(index) && index > -1;

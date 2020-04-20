@@ -1,8 +1,8 @@
-export { Card } from './card';
-export { CardStack } from './cardStack';
-export * from './errorMessages';
+export { Card } from 'core/card';
+export { CardStack } from 'core/cardStack';
+export * from 'core/errorMessages';
 
-import { CardStack } from './cardStack';
+import { CardStack } from 'core/cardStack';
 
 export enum Suit {
   DIAMONDS, // ♦

@@ -1,4 +1,4 @@
-import { Card } from '../core';
+import { Card } from 'core';
 
 /**
  * Card stack class. Beginning of the stack is the upper card.
