@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { Suit, SpecialRank } from 'core';
-import { createQueenOfSpades } from './testUtils/cardUtil';
+import { createQueenOfSpades } from './_testUtils/cardUtil';
 
 describe('Card', function() {
   let card;
