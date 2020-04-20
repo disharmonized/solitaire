@@ -18,9 +18,9 @@
     "noImplicitThis": false,
     "strictNullChecks": false,
     "experimentalDecorators": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "src/*": [
+      "*": [
         "*"
       ],
     }

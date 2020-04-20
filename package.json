@@ -22,6 +22,7 @@
     "reflect-metadata": "^0.1.13",
     "shx": "^0.3.2",
     "ts-node": "^8.8.2",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "~3.8.2"
   },
   "scripts": {
@@ -33,7 +34,7 @@
     "tslint:fix": "eslint --fix . --ext .ts,.tsx",
     "lint": "npm run tslint && npm run build",
     "lint:fix": "npm run tslint:fix && npm run build",
-    "test:unit": "nyc  --reporter=html --reporter=text mocha --require ts-node/register test/**/*.test.ts",
+    "test:unit": "nyc  --reporter=html --reporter=text mocha -r ts-node/register -r tsconfig-paths/register test/**/*.test.ts",
     "test:fix": "npm run lint:fix && npm run test:unit",
     "test:cloud-coverage": "nyc report --reporter=json --check-coverage=false"
   },

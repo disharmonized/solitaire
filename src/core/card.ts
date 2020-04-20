@@ -1,4 +1,4 @@
-import { Suit, Rank } from 'core';
+import { Suit, Rank } from 'src/core';
 
 /**
  * Card class
