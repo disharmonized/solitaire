@@ -26,6 +26,5 @@ jobs:
         env:
           CI: true
       - run: npm run test:cloud-coverage
-        if: success() || failure()
+        if: startsWith(matrix.os, 'ubuntu')  && (success() || failure())
       - run: bash <(curl -s https://codecov.io/bash) -f coverage/coverage-final.json
-        if: success() || failure()
