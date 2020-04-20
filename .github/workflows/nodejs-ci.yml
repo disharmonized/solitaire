@@ -26,6 +26,6 @@ jobs:
         env:
           CI: true
       - run: npm run test:cloud-coverage
-        if: startsWith(matrix.os, 'ubuntu') && startsWith(matrix["node-version"], '8') && (success() || failure())
+        if: startsWith(matrix.os, 'ubuntu') && startsWith(matrix['node-version'], '8') && (success() || failure())
       - run: bash <(curl -s https://codecov.io/bash) -f coverage/coverage-final.json
-        if: startsWith(matrix.os, 'ubuntu' && startsWith(matrix["node-version"], '8') && (success() || failure())
+        if: startsWith(matrix.os, 'ubuntu' && startsWith(matrix['node-version'], '8') && (success() || failure())
