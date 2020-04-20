@@ -1,6 +1,6 @@
 export { Card } from './card';
 export { CardStack } from './cardStack';
-export * from './errors';
+export * from './errorMessages';
 
 import { CardStack } from './cardStack';
 
