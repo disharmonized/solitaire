@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { Util } from 'core/util';
+import { Util } from '../../src/core/util';
 
 describe('Util', function() {
   describe('#createArrayOfSeqIndexes()', function() {

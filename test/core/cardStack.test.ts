@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { CardStack } from 'core';
+import { CardStack } from '../../src/core';
 import { createQueenOfSpades } from './_testUtils/cardUtil';
 
 describe('CardStack', function() {
