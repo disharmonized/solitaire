@@ -62,12 +62,13 @@ describe('ParameterValidators', function() {
         const block = (): void => {
           decoratedClass.method3(1, 2, -3);
         };
-        assert.throws(block, { message: 'Invalid card index -3: should be non-negative integer' });
+        assert.throws(block, { message: 'Invalid card indexes 1, 2, -3: all should be non-negative integers' });
       });
       it('should let pass through if value is positive integer number', function() {
         const decoratedClass = new DecoratedClass();
         const block = (): void => {
-          decoratedClass.method3(1, 2, 3);
+          const result = decoratedClass.method3(1, 2, 3);
+          assert.equal(result, '1,2,3');
         };
         assert.doesNotThrow(block);
       });
