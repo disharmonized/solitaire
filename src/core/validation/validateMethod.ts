@@ -2,7 +2,7 @@ import { ValidationUtil, ParameterType } from 'src/core/validation/validationUti
 import { UNKNOWN_PARAMETER_TYPE } from '../errorMessages';
 
 export function validate(target: unknown, propertyName: string, descriptor: PropertyDescriptor): PropertyDescriptor {
-  const originalValue = descriptor.value;
+  const originalMethod = descriptor.value;
   descriptor.value = function(..._args: unknown[]): unknown {
     const metadataList = ValidationUtil.getMethodValidationMetadata(target);
     const rules = metadataList.filter(value => value.validatee.method === propertyName);
@@ -23,7 +23,7 @@ export function validate(target: unknown, propertyName: string, descriptor: Prop
         }
       }
     });
-    return originalValue(..._args);
+    return originalMethod.apply(this, _args);
   };
   return descriptor;
 }
