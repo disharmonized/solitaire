@@ -19,7 +19,7 @@ export enum ParameterType {
 
 export class ValidationUtil {
   static keyPrefix = '_validation';
-  static keySeparator = '-';
+  static keySeparator = '|';
 
   static setMethodValidationMetadata(target: unknown, metadata: MethodValidationMetadataKey, validator: Function): void {
     const keyToSave = [this.keyPrefix, metadata.method, metadata.parameterType.toString(), metadata.parameterIndex, metadata.validatorFunctionName].join(

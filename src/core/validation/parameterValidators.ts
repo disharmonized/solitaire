@@ -16,7 +16,7 @@ function isValidCardIndexArrayCheck(indexes: number[]): boolean {
 }
 
 export function cardIndex(target: unknown, methodName: string, methodParameterIndex: number): void {
-  ValidationUtil.createParameterValidator(target, methodName, methodParameterIndex, function isValidCardIndex(value) {
+  ValidationUtil.createParameterValidator(target, methodName, methodParameterIndex, function isValidCardIndex(value: number) {
     if (!isValidCardIndexCheck(value)) {
       throw new Error(INVALID_CARD_INDEX(value));
     }

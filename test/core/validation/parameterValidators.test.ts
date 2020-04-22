@@ -56,7 +56,9 @@ describe('ParameterValidators', function() {
         assert.doesNotThrow(block);
       });
     });
-    describe('for rest parameter', function() {
+  });
+  describe('@cardIndexesRest', function() {
+    describe('for single parameter', function() {
       it('should throw error if value is invalid', function() {
         const decoratedClass = new DecoratedClass();
         const block = (): void => {
@@ -71,6 +73,30 @@ describe('ParameterValidators', function() {
           assert.equal(result, '1,2,3');
         };
         assert.doesNotThrow(block);
+      });
+    });
+    describe('@cardIndex + @cardIndexesRest', function() {
+      it('should let pass through if @cardIndex is valid and @cardIndexesRest is valid', function() {
+        const decoratedClass = new DecoratedClass();
+        const block = (): void => {
+          const result = decoratedClass.method4(1, 2, 3);
+          assert.equal(result, '1,[2,3]');
+        };
+        assert.doesNotThrow(block);
+      });
+      it('should throw error if @cardIndex is invalid and @cardIndexesRest is valid', function() {
+        const decoratedClass = new DecoratedClass();
+        const block = (): void => {
+          decoratedClass.method4(-1, 2, 3);
+        };
+        assert.throws(block, { message: 'Invalid card index -1: should be non-negative integer' });
+      });
+      it('should throw error if @cardIndex is valid and @cardIndexesRest is invalid', function() {
+        const decoratedClass = new DecoratedClass();
+        const block = (): void => {
+          decoratedClass.method4(1, -2, -3);
+        };
+        assert.throws(block, { message: 'Invalid card indexes -2, -3: all should be non-negative integers' });
       });
     });
   });

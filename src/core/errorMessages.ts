@@ -9,5 +9,5 @@ export function INVALID_CARD_INDEXES(value: number[]): string {
 }
 
 export function UNKNOWN_PARAMETER_TYPE(value: ParameterType): string {
-  return `Unknow parameter type ${value}`;
+  return `Unknown parameter type ${value}`;
 }
