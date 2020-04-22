@@ -15,7 +15,7 @@ function isValidCardIndexArrayCheck(indexes: number[]): boolean {
   return true;
 }
 
-export function cardIndex(target: unknown, methodName: string, methodParameterIndex: number): void {
+export function validCardIndex(target: unknown, methodName: string, methodParameterIndex: number): void {
   ValidationUtil.createParameterValidator(target, methodName, methodParameterIndex, function isValidCardIndex(value: number) {
     if (!isValidCardIndexCheck(value)) {
       throw new Error(INVALID_CARD_INDEX(value));
@@ -23,7 +23,7 @@ export function cardIndex(target: unknown, methodName: string, methodParameterIn
   });
 }
 
-export function cardIndexesRest(target: unknown, methodName: string, methodParameterIndex: number): void {
+export function validCardIndexesRest(target: unknown, methodName: string, methodParameterIndex: number): void {
   ValidationUtil.createRestParameterValidator(target, methodName, methodParameterIndex, function isValidCardIndexes(value: number[]) {
     if (!isValidCardIndexArrayCheck(value)) {
       throw new Error(INVALID_CARD_INDEXES(value));

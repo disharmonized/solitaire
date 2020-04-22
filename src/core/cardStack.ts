@@ -1,4 +1,6 @@
 import { Card } from 'src/core';
+import { validate } from './validation/validateMethod';
+import { validCardIndex } from './validation/parameterValidators';
 
 /**
  * Card stack class. Beginning of the stack is the upper card.
@@ -37,9 +39,9 @@ export class CardStack {
    * === desk
    *
    * -                                \
-   *    - \                            \
-   *    -  new card stack to be put     \
-   *    - /                              current cardstack
+   * -    \                            \
+   * -     new card stack to be put     \
+   * -    /                              current cardstack
    * -   <- where to put                /
    * -                                 /
    * -                                /
@@ -47,7 +49,12 @@ export class CardStack {
    * @param cardIndexToPutOn Index of the card in the current stack where to put new stack
    * @param cardStack New card stack to put
    */
-  // putCardStack(cardStack: CardStack, cardIndexToPutOn: number): void {}
+  // @validate
+  // putCardStack(cardStack: CardStack, @validCardIndex cardIndexToPutOn: number): void {
+  //   if (cardStack.isEmpty) {
+  //     return;
+  //   }
+  // }
 
   /**
    * Takes card stack from the top of the current stack
@@ -108,5 +115,8 @@ export class CardStack {
     return this.cardStack.length === 0;
   }
 
-  // cardExists(cardIndex: number): boolean {}
+  @validate
+  cardExists(@validCardIndex cardIndex: number): boolean {
+    return !!this.cardStack[cardIndex];
+  }
 }

@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { validate } from 'src/core/validation/validateMethod';
-import { cardIndex, cardIndexesRest } from 'src/core/validation/parameterValidators';
+import { validCardIndex, validCardIndexesRest } from 'src/core/validation/parameterValidators';
 import { ValidationUtil, MethodValidationMetadataKey, ParameterType } from 'src/core/validation/validationUtil';
 
 export class DecoratedClass {
   @validate
-  method1(@cardIndex _param: number): void {}
+  method1(@validCardIndex _param: number): void {}
 
   @validate
-  method2(@cardIndex _param1: number, @cardIndex _param2: number): void {}
+  method2(@validCardIndex _param1: number, @validCardIndex _param2: number): void {}
 
   @validate
-  method3(@cardIndexesRest ..._param1: number[]): string {
+  method3(@validCardIndexesRest ..._param1: number[]): string {
     return _param1.join(',');
   }
 
   @validate
-  method4(@cardIndex _param1: number, @cardIndexesRest ..._param2: number[]): string {
+  method4(@validCardIndex _param1: number, @validCardIndexesRest ..._param2: number[]): string {
     return [_param1, `[${_param2.join(',')}]`].join(',');
   }
 }
