@@ -9,6 +9,7 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "~12.12.27",
+    "@types/uuid": "^7.0.2",
     "@typescript-eslint/eslint-plugin": "~2.19.2",
     "@typescript-eslint/parser": "~2.19.2",
     "eslint": "~6.8.0",
@@ -38,5 +39,8 @@
     "test:fix": "npm run lint:fix && npm run test:unit",
     "test:cloud-coverage": "nyc report --reporter=json --check-coverage=false"
   },
-  "author": "Ruslan Bikkinin"
+  "author": "Ruslan Bikkinin",
+  "dependencies": {
+    "uuid": "^7.0.3"
+  }
 }

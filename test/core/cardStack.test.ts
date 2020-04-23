@@ -23,4 +23,20 @@ describe('CardStack', function() {
       assert.equal(cardStack.cardExists(0), false);
     });
   });
+  describe('#putCardStack()', function() {
+    it('should do nothing if card stack to put is empty', function() {
+      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStackToPut = new CardStack();
+      cardStack.putCardStack(cardStackToPut, 0);
+      assert.equal(cardStack.cardCount, 1);
+    });
+    it("should throw error if card with given index doesn't exist in the card stack", function() {
+      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStackToPut = new CardStack([createQueenOfSpades()]);
+      const block = (): void => {
+        cardStack.putCardStack(cardStackToPut, 5);
+      };
+      assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
+    });
+  });
 });

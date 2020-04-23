@@ -1,6 +1,8 @@
 import { Card } from 'src/core';
 import { validate } from './validation/validateMethod';
 import { validCardIndex } from './validation/parameterValidators';
+import { v4 as uuidv4 } from 'uuid';
+import { CARD_INDEX_DOESNT_EXIST } from './errorMessages';
 
 /**
  * Card stack class. Beginning of the stack is the upper card.
@@ -10,7 +12,7 @@ import { validCardIndex } from './validation/parameterValidators';
  * === desk
  */
 export class CardStack {
-  constructor(protected cardStack: Card[] = []) {}
+  constructor(protected cards: Card[] = [], public readonly alias: string = uuidv4()) {}
 
   /**
    * Takes card stack from the top of the current stack
@@ -49,12 +51,17 @@ export class CardStack {
    * @param cardIndexToPutOn Index of the card in the current stack where to put new stack
    * @param cardStack New card stack to put
    */
-  // @validate
-  // putCardStack(cardStack: CardStack, @validCardIndex cardIndexToPutOn: number): void {
-  //   if (cardStack.isEmpty) {
-  //     return;
-  //   }
-  // }
+  @validate
+  putCardStack(cardStack: CardStack, @validCardIndex cardIndexToPutOn: number): void {
+    if (cardStack.isEmpty) {
+      return;
+    }
+    if (!this.cardExists(cardIndexToPutOn)) {
+      throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndexToPutOn, this.alias));
+    }
+
+    // TODO
+  }
 
   /**
    * Takes card stack from the top of the current stack
@@ -112,11 +119,18 @@ export class CardStack {
    * Checks if current card stack is empty (contains no cards)
    */
   get isEmpty(): boolean {
-    return this.cardStack.length === 0;
+    return this.cards.length === 0;
+  }
+
+  /**
+   * Gets number of card in the card stack
+   */
+  get cardCount(): number {
+    return this.cards.length;
   }
 
   @validate
   cardExists(@validCardIndex cardIndex: number): boolean {
-    return !!this.cardStack[cardIndex];
+    return !!this.cards[cardIndex];
   }
 }
