@@ -10,3 +10,86 @@ export class Util {
     return new Array(size).fill(null).map((_v, i) => i);
   }
 }
+
+/**
+ * Interface for creating reverse iteratables.
+ */
+export interface ReverseIterable<T> extends Iterable<T> {
+  /**
+   * Switches to reverse iterating
+   */
+  toReverseIterable(): void;
+  /**
+   * Switches to forward iterating
+   */
+  toForwardIterable(): void;
+}
+
+/**
+ * Class for implementing reverse iterable ArrayLike.
+ * By default, reverse mode is disabled, i.e. iterating will be going in forward mode.
+ */
+export abstract class ReverseIterableArrayLike<T> implements ReverseIterable<T> {
+  private inReverseMode = false;
+
+  /**
+   * Returns ArrayLike object to iterate on
+   */
+  protected abstract getIteratee(): ArrayLike<T>;
+
+  toReverseIterable(): void {
+    this.inReverseMode = true;
+  }
+
+  toForwardIterable(): void {
+    this.inReverseMode = false;
+  }
+
+  [Symbol.iterator](): Iterator<T> {
+    if (this.inReverseMode) {
+      return this.getReverseIterator();
+    } else {
+      return this.getForwardIterator();
+    }
+  }
+
+  private getForwardIterator(): Iterator<T> {
+    const array = this.getIteratee();
+    let current = 0;
+    return {
+      next(): IteratorResult<T> {
+        if (current < array.length) {
+          return {
+            value: array[current++],
+            done: false,
+          };
+        } else {
+          return {
+            value: null,
+            done: true,
+          };
+        }
+      },
+    };
+  }
+
+  private getReverseIterator(): Iterator<T> {
+    const array = this.getIteratee();
+    let current = array.length - 1;
+    return {
+      next(): IteratorResult<T> {
+        if (current > -1) {
+          return {
+            value: array[current--],
+            done: false,
+          };
+        } else {
+          return {
+            value: null,
+            done: true,
+          };
+        }
+      },
+    };
+  }
+}
