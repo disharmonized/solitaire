@@ -5,17 +5,17 @@ export * from 'src/core/errorMessages';
 import { CardStack } from 'src/core/cardStack';
 
 export enum Suit {
-  DIAMONDS, // ♦
-  CLUBS, // ♣
-  HEARTS, // ♥
-  SPADES, // ♠
+  DIAMONDS = 0, // ♦
+  CLUBS = 1, // ♣
+  HEARTS = 2, // ♥
+  SPADES = 3, // ♠
 }
 
 export const enum SpecialRank {
   ACE = 1,
-  JACK = 11,
-  QUENN = 12,
-  KING = 13,
+  JACK = 11, // B
+  QUENN = 12, // C
+  KING = 13, //D
 }
 
 export const enum RankValueBounds {
