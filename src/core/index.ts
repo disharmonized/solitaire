@@ -11,14 +11,19 @@ export enum Suit {
   SPADES, // ♠
 }
 
-export enum SpecialRank {
+export const enum SpecialRank {
   ACE = 1,
   JACK = 11,
   QUENN = 12,
   KING = 13,
 }
-export type NumericRank = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-export type Rank = NumericRank | SpecialRank;
+
+export const enum RankValueBounds {
+  START_VALUE = 1,
+  END_VALUE = 13,
+}
+
+export type Rank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export interface MoveCardFromCardStack {
   index: number;

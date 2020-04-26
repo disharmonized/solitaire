@@ -1,6 +1,7 @@
 import * as assert from 'assert';
-import { Util } from 'src/core/util';
+import { Util, parseRank } from 'src/core/util';
 import { DummyReverseIterableClass } from 'test/fixtures/reverseIterableArrays';
+import { RankValueBounds } from 'src/core';
 
 describe('Util', function() {
   describe('#createArrayOfSeqIndexes()', function() {
@@ -9,6 +10,14 @@ describe('Util', function() {
     });
     it('should return correct value for N=3', function() {
       assert.deepEqual(Util.createArrayOfSeqIndexes(3), [0, 1, 2]);
+    });
+  });
+  describe('#parseRank()', function() {
+    it('should correctly parse value if it is inside boundaries', function() {
+      assert.doesNotThrow(() => parseRank(1));
+    });
+    it('should throw error if value is outside boundaries', function() {
+      assert.throws(() => parseRank(-1), { message: `Invalid rank value -1: should be >= ${RankValueBounds.START_VALUE} and <= ${RankValueBounds.END_VALUE}` });
     });
   });
 });

@@ -1,3 +1,7 @@
+import { Rank } from 'src/core';
+import { RankValueBounds } from 'src/core';
+import { INVALID_RANK_VALUE } from 'src/core/errorMessages';
+
 /**
  * Class Util. Various utility methods.
  */
@@ -92,4 +96,11 @@ export abstract class ReverseIterableArrayLike<T> implements ReverseIterable<T> 
       },
     };
   }
+}
+
+export function parseRank(value: number): Rank {
+  if (value >= RankValueBounds.START_VALUE && value <= RankValueBounds.END_VALUE) {
+    return value as Rank;
+  }
+  throw new Error(INVALID_RANK_VALUE(value));
 }
