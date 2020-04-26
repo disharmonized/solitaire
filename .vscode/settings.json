@@ -1,0 +1,7 @@
+{
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "eslint.options": {
+    "configFile": ".eslintrc.json"
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+}
