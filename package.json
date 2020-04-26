@@ -35,7 +35,7 @@
     "tslint:fix": "eslint --fix . --ext .ts,.tsx",
     "lint": "npm run tslint && npm run build",
     "lint:fix": "npm run tslint:fix && npm run build",
-    "test:unit": "nyc  --reporter=html --reporter=text mocha -r ts-node/register -r tsconfig-paths/register 'test/**/*.test.ts'",
+    "test:unit": "nyc  --reporter=html --reporter=text mocha -r ts-node/register -r tsconfig-paths/register 'test/**/*.test.ts' 'testUtils/test/**/*.test.ts'",
     "test:fix": "npm run lint:fix && npm run test:unit",
     "test:cloud-coverage": "nyc report --reporter=json --check-coverage=false"
   },

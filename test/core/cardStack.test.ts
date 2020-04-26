@@ -1,6 +1,7 @@
 import * as assert from 'assert';
 import { CardStack } from 'src/core';
-import { createQueenOfSpades } from 'test/_testUtils/cardUtil';
+import { createQueenOfSpades } from 'testUtils/src/cardUtil';
+// import { stringCardsArrayToCardStack, cardStackToStringArray } from 'src/core/cardStackUtil';
 
 describe('CardStack', function() {
   describe('#isEmpty()', function() {
@@ -38,5 +39,13 @@ describe('CardStack', function() {
       };
       assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
     });
+    // it('should', function() {
+    //   const target = stringCardsArrayToCardStack(['20', '30', '60']);
+    //   const stack = stringCardsArrayToCardStack(['40', '50']);
+    //   const expected = ['20', '30', '40', '50', '60'];
+    //   target.putCardStack(stack, 1);
+    //   const actual = cardStackToStringArray(target);
+    //   assert.deepEqual(actual, expected);
+    // });
   });
 });
