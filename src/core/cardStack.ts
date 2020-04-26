@@ -134,4 +134,16 @@ export class CardStack {
   cardExists(@validCardIndex cardIndex: number): boolean {
     return !!this.cards[cardIndex];
   }
+
+  /**
+   * Returns card in the stack.
+   * @param cardIndex index of the card to get.
+   */
+  @validate
+  getCard(@validCardIndex cardIndex: number): Card {
+    if (!this.cardExists(cardIndex)) {
+      throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndex, this.alias));
+    }
+    return this.cards[cardIndex];
+  }
 }

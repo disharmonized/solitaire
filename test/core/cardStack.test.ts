@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { CardStack } from 'src/core';
+import { CardStack, SpecialRank, Suit } from 'src/core';
 import { createQueenOfSpades } from 'testUtils/src/cardUtil';
 // import { stringCardsArrayToCardStack, cardStackToStringArray } from 'src/core/cardStackUtil';
 
@@ -22,6 +22,21 @@ describe('CardStack', function() {
     it("should return false is card doesn't exist", function() {
       const cardStack = new CardStack();
       assert.equal(cardStack.cardExists(0), false);
+    });
+  });
+  describe('#getCard()', function() {
+    it('should return card if it exists', function() {
+      const cardStack = new CardStack([createQueenOfSpades()]);
+      const card = cardStack.getCard(0);
+      assert.equal(card.rank, SpecialRank.QUENN);
+      assert.equal(card.suit, Suit.SPADES);
+    });
+    it("should throw error if card doesn't exist", function() {
+      const cardStack = new CardStack([createQueenOfSpades()]);
+      const block = (): void => {
+        cardStack.getCard(5);
+      };
+      assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
     });
   });
   describe('#putCardStack()', function() {
