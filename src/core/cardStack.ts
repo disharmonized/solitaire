@@ -1,8 +1,9 @@
 import { Card } from 'src/core';
-import { validate } from './validation/validateMethod';
-import { validCardIndex } from './validation/parameterValidators';
+import { validate } from 'src/core/validation/validateMethod';
+import { validCardIndex } from 'src/core/validation/parameterValidators';
 import { v4 as uuidv4 } from 'uuid';
-import { CARD_INDEX_DOESNT_EXIST } from './errorMessages';
+import { CARD_INDEX_DOESNT_EXIST } from 'src/core/errorMessages';
+import { ReverseIterableArrayLike } from 'src/core/util';
 
 /**
  * Card stack class. Beginning of the stack is the upper card.

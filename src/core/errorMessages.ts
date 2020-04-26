@@ -1,5 +1,5 @@
-import { ParameterType } from './validation/validationUtil';
-import { RankValueBounds } from '.';
+import { ParameterType } from 'src/core/validation/validationUtil';
+import { RankValueBounds } from 'src/core';
 
 export function INVALID_CARD_INDEX(value: number): string {
   return `Invalid card index ${value}: should be non-negative integer`;

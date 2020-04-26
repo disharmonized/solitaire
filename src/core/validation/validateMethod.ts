@@ -1,5 +1,5 @@
 import { ValidationUtil, ParameterType } from 'src/core/validation/validationUtil';
-import { UNKNOWN_PARAMETER_TYPE } from '../errorMessages';
+import { UNKNOWN_PARAMETER_TYPE } from 'src/core/errorMessages';
 
 export function validate(target: unknown, propertyName: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   const originalMethod = descriptor.value;
