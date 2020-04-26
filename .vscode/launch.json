@@ -19,7 +19,8 @@
         "ts-node/register",
         "-r",
         "tsconfig-paths/register",
-        "${workspaceFolder}/test/**/*.test.ts"
+        "${workspaceFolder}/test/**/*.test.ts",
+        "${workspaceFolder}/testUtils/test/**/*.test.ts",
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": [
