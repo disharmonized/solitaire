@@ -33,12 +33,10 @@ export class ValidationUtil {
     const metadataKeys: string[] = Reflect.getOwnMetadataKeys(target);
     metadataKeys.forEach(key => {
       if (key.startsWith(this.keyPrefix)) {
-        let parameterTypeStringified, method, parameterIndex, validatorFunctionName;
-        // eslint-disable-next-line prefer-const
-        let keyValues = key.split(this.keySeparator);
+        const keyValues = key.split(this.keySeparator);
         keyValues.shift();
-        // eslint-disable-next-line prefer-const
-        [method, parameterTypeStringified, parameterIndex, validatorFunctionName] = keyValues;
+        const [method, parameterTypeStringified, parameterIndexStringified, validatorFunctionName] = keyValues;
+        const parameterIndex = Number.parseInt(parameterIndexStringified, 10);
         const parameterTypeAsInt = Number.parseInt(parameterTypeStringified, 10);
         const parameterType: ParameterType = parameterTypeAsInt as ParameterType;
         const validatee = { method, parameterIndex, parameterType, validatorFunctionName };

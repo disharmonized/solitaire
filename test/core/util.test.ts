@@ -25,8 +25,7 @@ describe('Util', function() {
 describe('ReverseIterableArrayLike', function() {
   it('should correctly iterate in implicit forward mode', function() {
     const iterable = new DummyReverseIterableClass([1, 2, 3]);
-    // eslint-disable-next-line prefer-const
-    let result = [];
+    const result = [];
     for (const value of iterable) {
       result.push(value);
     }
@@ -35,8 +34,7 @@ describe('ReverseIterableArrayLike', function() {
   it('should correctly iterate in explicit forward mode', function() {
     const iterable = new DummyReverseIterableClass([1, 2, 3]);
     iterable.toForwardIterable();
-    // eslint-disable-next-line prefer-const
-    let result = [];
+    const result = [];
     for (const value of iterable) {
       result.push(value);
     }
@@ -45,8 +43,7 @@ describe('ReverseIterableArrayLike', function() {
   it('should correctly iterate in reverse mode', function() {
     const iterable = new DummyReverseIterableClass([1, 2, 3]);
     iterable.toReverseIterable();
-    // eslint-disable-next-line prefer-const
-    let result = [];
+    const result = [];
     for (const value of iterable) {
       result.push(value);
     }

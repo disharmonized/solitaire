@@ -20,8 +20,7 @@ export function cardToString(card: Card): string {
 }
 
 export function stringCardsArrayToCardStack(stringCards: string[]): CardStack {
-  // eslint-disable-next-line prefer-const
-  let cards = [];
+  const cards = [];
   for (const stringCard of stringCards) {
     cards.push(parseCardFromString(stringCard));
   }
@@ -40,8 +39,7 @@ export function cardsAreEqual(card1: Card | string, card2: Card | string): boole
 }
 
 export function cardStackToStringArray(cardStack: CardStack): string[] {
-  // eslint-disable-next-line prefer-const
-  let result = [];
+  const result = [];
   for (const card of cardStack) {
     result.push(cardToString(card));
   }
