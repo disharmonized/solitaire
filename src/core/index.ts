@@ -13,9 +13,9 @@ export enum Suit {
 
 export const enum SpecialRank {
   ACE = 1,
-  JACK = 11, // B
-  QUENN = 12, // C
-  KING = 13, //D
+  JACK = 11, // b
+  QUENN = 12, // c
+  KING = 13, //d
 }
 
 export const enum RankValueBounds {

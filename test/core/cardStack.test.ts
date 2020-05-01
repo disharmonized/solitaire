@@ -39,60 +39,75 @@ describe('CardStack', function() {
       assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
     });
   });
-  describe('#addToMe()', function() {
-    it('should do nothing if card stack being added is empty', function() {
-      const cardStack = new CardStack([queenOfSpades()]);
-      const cardStackToAdd = new CardStack();
-      cardStack.addToMe(cardStackToAdd, 0);
-      assert.equal(cardStack.cardCount, 1);
-    });
-    it("should throw error if card with given index doesn't exist in the card stack", function() {
-      const cardStack = new CardStack([queenOfSpades()]);
-      const cardStackToAdd = new CardStack([queenOfSpades()]);
-      const block = (): void => {
-        cardStack.addToMe(cardStackToAdd, 5);
-      };
-      assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
-    });
-    it('should throw error if current card stack is empty but card index is passed', function() {
-      const cardStack = new CardStack();
-      const cardStackToAdd = new CardStack([queenOfSpades()]);
-      const block = (): void => {
-        cardStack.addToMe(cardStackToAdd, 1);
-      };
-      assert.throws(block, { message: `Cannot add card stack into stack ${cardStack.alias}: target stack is empty so no card index should be passed` });
-    });
-    it('should throw error if current card stack is not empty but card index in omitted', function() {
-      const cardStack = new CardStack([queenOfSpades()]);
-      const cardStackToAdd = new CardStack([queenOfSpades()]);
-      const block = (): void => {
-        cardStack.addToMe(cardStackToAdd);
-      };
-      assert.throws(block, { message: `Cannot add card stack into stack ${cardStack.alias}: card index is missing` });
-    });
-    describe('should correctly add cards in the stack', function() {
-      const tests = [
-        { stack: ['20', '30', '60'], toAdd: ['40', '50'], index: 1, result: ['20', '30', '40', '50', '60'] },
-        { stack: ['20'], toAdd: ['30', '40'], index: 0, result: ['20', '30', '40'] },
-        { stack: ['20'], toAdd: ['30'], index: 0, result: ['20', '30'] },
-        { stack: ['20', '30'], toAdd: ['40', '50'], index: 1, result: ['20', '30', '40', '50'] },
-        { stack: [], toAdd: ['10', '20'], result: ['10', '20'] },
-        { stack: ['10', '20'], toAdd: [], result: ['10', '20'] },
-      ];
+  describe('manipulate with card stack', function() {
+    interface AddMethodParameters {
+      target: string[];
+      beingAdded: string[];
+      index?: number;
+    }
 
-      for (const [i, test] of tests.entries()) {
-        it(`case #${i + 1}`, function() {
-          const target = stringCardsArrayToCardStack(test.stack);
-          const stack = stringCardsArrayToCardStack(test.toAdd);
-          if (test.index === void 0) {
-            target.addToMe(stack);
-          } else {
-            target.addToMe(stack, test.index);
-          }
-          const result = cardStackToStringArray(target);
-          assert.deepEqual(result, test.result);
-        });
-      }
+    interface TestCase extends AddMethodParameters {
+      result: string[];
+    }
+
+    const tests: TestCase[] = [
+      { target: ['20', '30', '60'], beingAdded: ['40', '50'], index: 1, result: ['20', '30', '40', '50', '60'] },
+      { target: ['20'], beingAdded: ['30', '40'], index: 0, result: ['20', '30', '40'] },
+      { target: ['20'], beingAdded: ['30'], index: 0, result: ['20', '30'] },
+      { target: ['20', '30'], beingAdded: ['40', '50'], index: 1, result: ['20', '30', '40', '50'] },
+      { target: [], beingAdded: ['10', '20'], result: ['10', '20'] },
+      { target: ['10', '20'], beingAdded: [], result: ['10', '20'] },
+    ];
+
+    describe('#addToMe', function() {
+      const addToMe = (params: AddMethodParameters): string[] => {
+        const target = stringCardsArrayToCardStack(params.target);
+        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        if (params.index !== void 0) {
+          target.addToMe(beingAdded, params.index);
+        } else {
+          target.addToMe(beingAdded);
+        }
+        return cardStackToStringArray(target);
+      };
+      it('should do nothing if card stack being added is empty', function() {
+        const cardStack = new CardStack([queenOfSpades()]);
+        const cardStackToAdd = new CardStack();
+        cardStack.addToMe(cardStackToAdd, 0);
+        assert.equal(cardStack.cardCount, 1);
+      });
+      it("should throw error if card with given index doesn't exist in the card stack", function() {
+        const cardStack = new CardStack([queenOfSpades()]);
+        const cardStackToAdd = new CardStack([queenOfSpades()]);
+        const block = (): void => {
+          cardStack.addToMe(cardStackToAdd, 5);
+        };
+        assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
+      });
+      it('should throw error if current card stack is empty but card index is passed', function() {
+        const cardStack = new CardStack();
+        const cardStackToAdd = new CardStack([queenOfSpades()]);
+        const block = (): void => {
+          cardStack.addToMe(cardStackToAdd, 1);
+        };
+        assert.throws(block, { message: `Cannot add card stack into stack ${cardStack.alias}: target stack is empty so no card index should be passed` });
+      });
+      it('should throw error if current card stack is not empty but card index in omitted', function() {
+        const cardStack = new CardStack([queenOfSpades()]);
+        const cardStackToAdd = new CardStack([queenOfSpades()]);
+        const block = (): void => {
+          cardStack.addToMe(cardStackToAdd);
+        };
+        assert.throws(block, { message: `Cannot add card stack into stack ${cardStack.alias}: card index is missing` });
+      });
+      describe('should correctly add cards to the stack', function() {
+        for (const [i, test] of tests.entries()) {
+          it(`case #${i + 1}`, function() {
+            const result = addToMe({ target: test.target, beingAdded: test.beingAdded, index: test.index });
+            assert.deepEqual(result, test.result);
+          });
+        }
+      });
     });
   });
 });
