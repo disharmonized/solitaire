@@ -109,5 +109,25 @@ describe('CardStack', function() {
         }
       });
     });
+    describe('#addMyselfTo', function() {
+      const addMyselfTo = (params: AddMethodParameters): string[] => {
+        const target = stringCardsArrayToCardStack(params.target);
+        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        if (params.index !== void 0) {
+          beingAdded.addMyselfTo(target, params.index);
+        } else {
+          beingAdded.addMyselfTo(target);
+        }
+        return cardStackToStringArray(target);
+      };
+      describe('should correctly add cards to the stack', function() {
+        for (const [i, test] of tests.entries()) {
+          it(`case #${i + 1}`, function() {
+            const result = addMyselfTo({ target: test.target, beingAdded: test.beingAdded, index: test.index });
+            assert.deepEqual(result, test.result);
+          });
+        }
+      });
+    });
   });
 });

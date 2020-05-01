@@ -42,11 +42,6 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   /**
    * Add card stack to current stack
    *
-   * - \
-   * -  new card stack to be added
-   * - /
-   * === desk
-   *
    * -                                \
    * -    \                            \
    * -     new card stack to be added   \
@@ -86,6 +81,24 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
         this.cards.splice(cardIndex + 1, 0, cardToAdd);
       }
     }
+  }
+
+  /**
+   * Add current card stack to another one
+   *
+   * -                                \
+   * -    \                            \
+   * -     current card stack           \
+   * -    /                              another cardstack
+   * -   <- where to add                /
+   * -                                 /
+   * -                                /
+   * === desk
+   * @param cardIndex Index of the card in the current stack where to add new stack
+   * @param cardStack New card stack
+   */
+  addMyselfTo(cardStack: CardStack, @validCardIndex cardIndex?: number): void {
+    cardStack.addToMe(this, cardIndex);
   }
 
   /**
