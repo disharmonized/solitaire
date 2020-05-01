@@ -2,7 +2,7 @@ import { Card } from 'src/core';
 import { validate } from 'src/core/validation/validateMethod';
 import { validCardIndex } from 'src/core/validation/parameterValidators';
 import { v4 as uuidv4 } from 'uuid';
-import { CARD_INDEX_DOESNT_EXIST } from 'src/core/errorMessages';
+import { CARD_INDEX_DOESNT_EXIST, MISSING_CARD_INDEX, CARD_INDEX_SHOULD_BE_OMITTED } from 'src/core/errorMessages';
 import { ReverseIterableArrayLike } from 'src/core/util';
 
 /**
@@ -12,8 +12,14 @@ import { ReverseIterableArrayLike } from 'src/core/util';
  * -
  * === desk
  */
-export class CardStack {
-  constructor(protected cards: Card[] = [], public readonly alias: string = uuidv4()) {}
+export class CardStack extends ReverseIterableArrayLike<Card> {
+  constructor(protected cards: Card[] = [], public readonly alias: string = uuidv4()) {
+    super();
+  }
+
+  protected getIteratee(): ArrayLike<Card> {
+    return this.cards;
+  }
 
   /**
    * Takes card stack from the top of the current stack
@@ -53,15 +59,33 @@ export class CardStack {
    * @param cardStack New card stack to put
    */
   @validate
-  putCardStack(cardStack: CardStack, @validCardIndex cardIndexToPutOn: number): void {
+  putCardStack(cardStack: CardStack, @validCardIndex cardIndexToPutOn?: number): void {
     if (cardStack.isEmpty) {
       return;
     }
-    if (!this.cardExists(cardIndexToPutOn)) {
-      throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndexToPutOn, this.alias));
+    if (this.isEmpty) {
+      if (cardIndexToPutOn !== void 0) {
+        throw new Error(CARD_INDEX_SHOULD_BE_OMITTED(this.alias));
+      }
+      cardStack.toForwardIterable();
+    } else {
+      if (cardIndexToPutOn === void 0) {
+        throw new Error(MISSING_CARD_INDEX(this.alias));
+      }
+      if (!this.cardExists(cardIndexToPutOn)) {
+        throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndexToPutOn, this.alias));
+      }
+      cardStack.toReverseIterable();
     }
 
-    // TODO
+    for (const cardtoPut of cardStack) {
+      if (this.isEmpty) {
+        cardIndexToPutOn = 0;
+        this.cards.push(cardtoPut);
+      } else {
+        this.cards.splice(cardIndexToPutOn + 1, 0, cardtoPut);
+      }
+    }
   }
 
   /**

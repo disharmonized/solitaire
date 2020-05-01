@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { CardStack, SpecialRank, Suit } from 'src/core';
 import { createQueenOfSpades } from 'testUtils/src/cardUtil';
-// import { stringCardsArrayToCardStack, cardStackToStringArray } from 'src/core/cardStackUtil';
+import { stringCardsArrayToCardStack, cardStackToStringArray } from 'testUtils/src/cardStackUtil';
 
 describe('CardStack', function() {
   describe('#isEmpty()', function() {
@@ -54,13 +54,45 @@ describe('CardStack', function() {
       };
       assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
     });
-    // it('should', function() {
-    //   const target = stringCardsArrayToCardStack(['20', '30', '60']);
-    //   const stack = stringCardsArrayToCardStack(['40', '50']);
-    //   const expected = ['20', '30', '40', '50', '60'];
-    //   target.putCardStack(stack, 1);
-    //   const actual = cardStackToStringArray(target);
-    //   assert.deepEqual(actual, expected);
-    // });
+    it('should throw error if current card stack is empty but index to put is passed', function() {
+      const cardStack = new CardStack();
+      const cardStackToPut = new CardStack([createQueenOfSpades()]);
+      const block = (): void => {
+        cardStack.putCardStack(cardStackToPut, 1);
+      };
+      assert.throws(block, { message: `Cannot put cards into stack ${cardStack.alias}: target stack is empty so no card index should be passed` });
+    });
+    it('should throw error if current card stack is not empty but index to put in omitted', function() {
+      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStackToPut = new CardStack([createQueenOfSpades()]);
+      const block = (): void => {
+        cardStack.putCardStack(cardStackToPut);
+      };
+      assert.throws(block, { message: `Cannot put cards into stack ${cardStack.alias}: card index is missing` });
+    });
+    describe('should correctly put cards in the stack', function() {
+      const tests = [
+        { stack: ['20', '30', '60'], toPut: ['40', '50'], index: 1, result: ['20', '30', '40', '50', '60'] },
+        { stack: ['20'], toPut: ['30', '40'], index: 0, result: ['20', '30', '40'] },
+        { stack: ['20'], toPut: ['30'], index: 0, result: ['20', '30'] },
+        { stack: ['20', '30'], toPut: ['40', '50'], index: 1, result: ['20', '30', '40', '50'] },
+        { stack: [], toPut: ['10', '20'], result: ['10', '20'] },
+        { stack: ['10', '20'], toPut: [], result: ['10', '20'] },
+      ];
+
+      for (const [i, test] of tests.entries()) {
+        it(`case #${i + 1}`, function() {
+          const target = stringCardsArrayToCardStack(test.stack);
+          const stack = stringCardsArrayToCardStack(test.toPut);
+          if (test.index === void 0) {
+            target.putCardStack(stack);
+          } else {
+            target.putCardStack(stack, test.index);
+          }
+          const result = cardStackToStringArray(target);
+          assert.deepEqual(result, test.result);
+        });
+      }
+    });
   });
 });

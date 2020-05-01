@@ -2,7 +2,7 @@ import { ValidationUtil } from 'src/core/validation/validationUtil';
 import { INVALID_CARD_INDEX, INVALID_CARD_INDEXES } from 'src/core/errorMessages';
 
 function isValidCardIndexCheck(index: number): boolean {
-  return Number.isInteger(index) && index > -1;
+  return index === void 0 || (Number.isInteger(index) && index > -1);
 }
 
 function isValidCardIndexArrayCheck(indexes: number[]): boolean {

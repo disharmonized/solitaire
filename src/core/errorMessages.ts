@@ -20,3 +20,15 @@ export function CARD_INDEX_DOESNT_EXIST(value: number, cardStackAlias: string): 
 export function INVALID_RANK_VALUE(value: number): string {
   return `Invalid rank value ${value}: should be >= ${RankValueBounds.START_VALUE} and <= ${RankValueBounds.END_VALUE}`;
 }
+
+export function CARD_STACK_IS_EMPTY(cardStackAlias: string): string {
+  return `Cannot put cards into stack ${cardStackAlias}: stack is empty`;
+}
+
+export function MISSING_CARD_INDEX(cardStackAlias: string): string {
+  return `Cannot put cards into stack ${cardStackAlias}: card index is missing`;
+}
+
+export function CARD_INDEX_SHOULD_BE_OMITTED(cardStackAlias: string): string {
+  return `Cannot put cards into stack ${cardStackAlias}: target stack is empty so no card index should be passed`;
+}
