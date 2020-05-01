@@ -21,10 +21,6 @@ export function INVALID_RANK_VALUE(value: number): string {
   return `Invalid rank value ${value}: should be >= ${RankValueBounds.START_VALUE} and <= ${RankValueBounds.END_VALUE}`;
 }
 
-export function CARD_STACK_IS_EMPTY(cardStackAlias: string): string {
-  return `Cannot add card stack into stack ${cardStackAlias}: stack is empty`;
-}
-
 export function MISSING_CARD_INDEX(cardStackAlias: string): string {
   return `Cannot add card stack into stack ${cardStackAlias}: card index is missing`;
 }
