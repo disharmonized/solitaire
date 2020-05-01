@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { CardStack, SpecialRank, Suit } from 'src/core';
-import { createQueenOfSpades } from 'testUtils/src/cardUtil';
+import { queenOfSpades } from 'testUtils/src/cardUtil';
 import { stringCardsArrayToCardStack, cardStackToStringArray } from 'testUtils/src/cardStackUtil';
 
 describe('CardStack', function() {
@@ -10,13 +10,13 @@ describe('CardStack', function() {
       assert.equal(cardStack.isEmpty, true);
     });
     it('should return false is card stack is not empty', function() {
-      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStack = new CardStack([queenOfSpades()]);
       assert.equal(cardStack.isEmpty, false);
     });
   });
   describe('#cardExists()', function() {
     it('should return true if card exists', function() {
-      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStack = new CardStack([queenOfSpades()]);
       assert.equal(cardStack.cardExists(0), true);
     });
     it("should return false is card doesn't exist", function() {
@@ -26,13 +26,13 @@ describe('CardStack', function() {
   });
   describe('#getCard()', function() {
     it('should return card if it exists', function() {
-      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStack = new CardStack([queenOfSpades()]);
       const card = cardStack.getCard(0);
       assert.equal(card.rank, SpecialRank.QUENN);
       assert.equal(card.suit, Suit.SPADES);
     });
     it("should throw error if card doesn't exist", function() {
-      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStack = new CardStack([queenOfSpades()]);
       const block = (): void => {
         cardStack.getCard(5);
       };
@@ -41,14 +41,14 @@ describe('CardStack', function() {
   });
   describe('#addToMe()', function() {
     it('should do nothing if card stack being added is empty', function() {
-      const cardStack = new CardStack([createQueenOfSpades()]);
+      const cardStack = new CardStack([queenOfSpades()]);
       const cardStackToAdd = new CardStack();
       cardStack.addToMe(cardStackToAdd, 0);
       assert.equal(cardStack.cardCount, 1);
     });
     it("should throw error if card with given index doesn't exist in the card stack", function() {
-      const cardStack = new CardStack([createQueenOfSpades()]);
-      const cardStackToAdd = new CardStack([createQueenOfSpades()]);
+      const cardStack = new CardStack([queenOfSpades()]);
+      const cardStackToAdd = new CardStack([queenOfSpades()]);
       const block = (): void => {
         cardStack.addToMe(cardStackToAdd, 5);
       };
@@ -56,15 +56,15 @@ describe('CardStack', function() {
     });
     it('should throw error if current card stack is empty but card index is passed', function() {
       const cardStack = new CardStack();
-      const cardStackToAdd = new CardStack([createQueenOfSpades()]);
+      const cardStackToAdd = new CardStack([queenOfSpades()]);
       const block = (): void => {
         cardStack.addToMe(cardStackToAdd, 1);
       };
       assert.throws(block, { message: `Cannot add card stack into stack ${cardStack.alias}: target stack is empty so no card index should be passed` });
     });
     it('should throw error if current card stack is not empty but card index in omitted', function() {
-      const cardStack = new CardStack([createQueenOfSpades()]);
-      const cardStackToAdd = new CardStack([createQueenOfSpades()]);
+      const cardStack = new CardStack([queenOfSpades()]);
+      const cardStackToAdd = new CardStack([queenOfSpades()]);
       const block = (): void => {
         cardStack.addToMe(cardStackToAdd);
       };

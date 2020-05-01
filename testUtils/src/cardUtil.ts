@@ -1,5 +1,5 @@
 import { Suit, SpecialRank, Card } from 'src/core';
 
-export function createQueenOfSpades(): Card {
+export function queenOfSpades(): Card {
   return new Card(Suit.SPADES, SpecialRank.QUENN);
 }

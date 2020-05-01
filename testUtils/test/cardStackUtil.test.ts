@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { parseCardFromString, cardToString, stringCardsArrayToCardStack, cardsAreEqual, cardStackToStringArray } from 'testUtils/src/cardStackUtil';
 import { Suit, SpecialRank, RankValueBounds, Card, CardStack } from 'src/core';
-import { createQueenOfSpades } from 'testUtils/src/cardUtil';
+import { queenOfSpades } from 'testUtils/src/cardUtil';
 
 describe('testUtils', function() {
   describe('CardStackUtil', function() {
@@ -29,7 +29,7 @@ describe('testUtils', function() {
     });
     describe('#cardToString()', function() {
       it('should correctly serialize card to string', function() {
-        const card = createQueenOfSpades();
+        const card = queenOfSpades();
         const stringCard = cardToString(card);
         assert.equal(stringCard, 'c3');
       });
@@ -51,9 +51,9 @@ describe('testUtils', function() {
       it('should return correct result for string and object', function() {
         assert.equal(cardsAreEqual('A0', new Card(Suit.DIAMONDS, 10)), true);
         assert.equal(cardsAreEqual('a0', new Card(Suit.DIAMONDS, 10)), true);
-        assert.equal(cardsAreEqual('c3', createQueenOfSpades()), true);
+        assert.equal(cardsAreEqual('c3', queenOfSpades()), true);
         assert.equal(cardsAreEqual('A0', new Card(Suit.DIAMONDS, 11)), false);
-        assert.equal(cardsAreEqual('C4', createQueenOfSpades()), false);
+        assert.equal(cardsAreEqual('C4', queenOfSpades()), false);
       });
       it('should return correct result for string and string', function() {
         assert.equal(cardsAreEqual('A0', 'A0'), true);
@@ -68,9 +68,9 @@ describe('testUtils', function() {
       it('should return correct result for object and string', function() {
         assert.equal(cardsAreEqual(new Card(Suit.DIAMONDS, 10), 'A0'), true);
         assert.equal(cardsAreEqual(new Card(Suit.DIAMONDS, 10), 'a0'), true);
-        assert.equal(cardsAreEqual(createQueenOfSpades(), 'c3'), true);
+        assert.equal(cardsAreEqual(queenOfSpades(), 'c3'), true);
         assert.equal(cardsAreEqual(new Card(Suit.DIAMONDS, 11), 'A0'), false);
-        assert.equal(cardsAreEqual(createQueenOfSpades(), 'C4'), false);
+        assert.equal(cardsAreEqual(queenOfSpades(), 'C4'), false);
       });
     });
     describe('#cardStackToStringArray()', function() {

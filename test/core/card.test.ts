@@ -1,11 +1,11 @@
 import * as assert from 'assert';
 import { Suit, SpecialRank } from 'src/core';
-import { createQueenOfSpades } from 'testUtils/src/cardUtil';
+import { queenOfSpades } from 'testUtils/src/cardUtil';
 
 describe('Card', function() {
   let card;
   beforeEach(function() {
-    card = createQueenOfSpades();
+    card = queenOfSpades();
   });
   describe('#isFacedUp()', function() {
     it('should return correct value', function() {
