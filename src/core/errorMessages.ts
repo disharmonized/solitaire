@@ -22,13 +22,13 @@ export function INVALID_RANK_VALUE(value: number): string {
 }
 
 export function CARD_STACK_IS_EMPTY(cardStackAlias: string): string {
-  return `Cannot put cards into stack ${cardStackAlias}: stack is empty`;
+  return `Cannot add card stack into stack ${cardStackAlias}: stack is empty`;
 }
 
 export function MISSING_CARD_INDEX(cardStackAlias: string): string {
-  return `Cannot put cards into stack ${cardStackAlias}: card index is missing`;
+  return `Cannot add card stack into stack ${cardStackAlias}: card index is missing`;
 }
 
 export function CARD_INDEX_SHOULD_BE_OMITTED(cardStackAlias: string): string {
-  return `Cannot put cards into stack ${cardStackAlias}: target stack is empty so no card index should be passed`;
+  return `Cannot add card stack into stack ${cardStackAlias}: target stack is empty so no card index should be passed`;
 }

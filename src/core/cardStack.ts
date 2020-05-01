@@ -40,50 +40,50 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   // ): CardStack {}
 
   /**
-   * Put card stack into current stack
+   * Add card stack to current stack
    *
    * - \
-   * -  new card stack to be put
+   * -  new card stack to be added
    * - /
    * === desk
    *
    * -                                \
    * -    \                            \
-   * -     new card stack to be put     \
+   * -     new card stack to be added   \
    * -    /                              current cardstack
-   * -   <- where to put                /
+   * -   <- where to add                /
    * -                                 /
    * -                                /
    * === desk
-   * @param cardIndexToPutOn Index of the card in the current stack where to put new stack
-   * @param cardStack New card stack to put
+   * @param cardIndex Index of the card in the current stack where to add new stack
+   * @param cardStack New card stack
    */
   @validate
-  putCardStack(cardStack: CardStack, @validCardIndex cardIndexToPutOn?: number): void {
+  addToMe(cardStack: CardStack, @validCardIndex cardIndex?: number): void {
     if (cardStack.isEmpty) {
       return;
     }
     if (this.isEmpty) {
-      if (cardIndexToPutOn !== void 0) {
+      if (cardIndex !== void 0) {
         throw new Error(CARD_INDEX_SHOULD_BE_OMITTED(this.alias));
       }
       cardStack.toForwardIterable();
     } else {
-      if (cardIndexToPutOn === void 0) {
+      if (cardIndex === void 0) {
         throw new Error(MISSING_CARD_INDEX(this.alias));
       }
-      if (!this.cardExists(cardIndexToPutOn)) {
-        throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndexToPutOn, this.alias));
+      if (!this.cardExists(cardIndex)) {
+        throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndex, this.alias));
       }
       cardStack.toReverseIterable();
     }
 
-    for (const cardtoPut of cardStack) {
+    for (const cardToAdd of cardStack) {
       if (this.isEmpty) {
-        cardIndexToPutOn = 0;
-        this.cards.push(cardtoPut);
+        cardIndex = 0;
+        this.cards.push(cardToAdd);
       } else {
-        this.cards.splice(cardIndexToPutOn + 1, 0, cardtoPut);
+        this.cards.splice(cardIndex + 1, 0, cardToAdd);
       }
     }
   }
@@ -102,20 +102,20 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   // }
 
   /**
-   * Put card stack on top of the current stack
+   * Add card stack on top of the current stack
    *
    * - \
-   * -  new card stack to be put
+   * -  new card stack to be added
    * - /
    * - \
    * -  Current stack
    * - /
    * === desk
-   * @param cardIndexToPutOn Index of the card in the current stack where to put new stack
-   * @param cardStack New card stack to put
+   * @param cardIndex Index of the card in the current stack where to add new stack
+   * @param cardStack New card stack
    */
-  // putCardStackOnTop(cardStack: CardStack): void {
-  //   this.putCardStack(cardStack, 0);
+  // addCardStackOnTop(cardStack: CardStack): void {
+  //   this.addCardStack(cardStack, 0);
   // }
 
   /**
