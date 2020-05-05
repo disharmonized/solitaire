@@ -22,22 +22,35 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Takes card stack from the top of the current stack
-   * -
-   * -
-   * -  \  first card to take
-   * -  .. n cards
-   * -  /
-   * -
-   * === desk
-   * @param firstCardIndex Index of the first card in the current stack
-   * @param numberOfCardsToTake N cards to take
+   * Checks if current card stack is empty (contains no cards)
    */
+  get isEmpty(): boolean {
+    return this.cards.length === 0;
+  }
 
-  // takeCardStask(
-  //   firstCardIndex: number,
-  //   numberOfCardsToTake: number,
-  // ): CardStack {}
+  /**
+   * Gets number of card in the card stack
+   */
+  get cardCount(): number {
+    return this.cards.length;
+  }
+
+  @validate
+  cardExists(@validCardIndex cardIndex: number): boolean {
+    return !!this.cards[cardIndex];
+  }
+
+  /**
+   * Returns card in the stack.
+   * @param cardIndex index of the card to get.
+   */
+  @validate
+  getCard(@validCardIndex cardIndex: number): Card {
+    if (!this.cardExists(cardIndex)) {
+      throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndex, this.alias));
+    }
+    return this.cards[cardIndex];
+  }
 
   /**
    * Add card stack to current stack
@@ -95,24 +108,11 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -                                /
    * === desk
    * @param cardIndex Index of the card in the current stack where to add new stack
-   * @param cardStack New card stack
+   * @param cardStack Another card stack
    */
   addMyselfTo(cardStack: CardStack, @validCardIndex cardIndex?: number): void {
     cardStack.addToMe(this, cardIndex);
   }
-
-  /**
-   * Takes card stack from the top of the current stack
-   * -  \
-   * -  .. n cards
-   * -  /
-   * -
-   * === desk
-   * @param numberOfCardsToTake n cards to take
-   */
-  // takeTopCardStack(numberOfCardsToTake): CardStack {
-  //   return this.takeCardStask(0, numberOfCardsToTake);
-  // }
 
   /**
    * Adds card stack on top of the current stack
@@ -125,7 +125,7 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * - /
    * === desk
    * @param cardIndex Index of the card in the current stack where to add new stack
-   * @param cardStack New card stack
+   * @param cardStack Card stack
    */
   addToMeOnTop(cardStack: CardStack): void {
     if (this.isEmpty) {
@@ -152,6 +152,37 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
+   * Takes card stack from the top of the current stack
+   * -
+   * -
+   * -  \  first card to take
+   * -  .. n cards
+   * -  /
+   * -
+   * === desk
+   * @param firstCardIndex Index of the first card in the current stack
+   * @param numberOfCardsToTake N cards to take
+   */
+
+  // takeCardStask(
+  //   firstCardIndex: number,
+  //   numberOfCardsToTake: number,
+  // ): CardStack {}
+
+  /**
+   * Takes card stack from the top of the current stack
+   * -  \
+   * -  .. n cards
+   * -  /
+   * -
+   * === desk
+   * @param numberOfCardsToTake n cards to take
+   */
+  // takeTopCardStack(numberOfCardsToTake): CardStack {
+  //   return this.takeCardStask(0, numberOfCardsToTake);
+  // }
+
+  /**
    * Turns cards around in the stack
    * @param cardsIndexes Indexes of cards to turn around
    */
@@ -172,35 +203,4 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   //   const cardIndexes = createArrayOfSeqIndexes(numberOfCards);
   //   this.turnCardsAround(...cardIndexes);
   // }
-
-  /**
-   * Checks if current card stack is empty (contains no cards)
-   */
-  get isEmpty(): boolean {
-    return this.cards.length === 0;
-  }
-
-  /**
-   * Gets number of card in the card stack
-   */
-  get cardCount(): number {
-    return this.cards.length;
-  }
-
-  @validate
-  cardExists(@validCardIndex cardIndex: number): boolean {
-    return !!this.cards[cardIndex];
-  }
-
-  /**
-   * Returns card in the stack.
-   * @param cardIndex index of the card to get.
-   */
-  @validate
-  getCard(@validCardIndex cardIndex: number): Card {
-    if (!this.cardExists(cardIndex)) {
-      throw new Error(CARD_INDEX_DOESNT_EXIST(cardIndex, this.alias));
-    }
-    return this.cards[cardIndex];
-  }
 }
