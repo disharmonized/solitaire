@@ -40,17 +40,24 @@ describe('CardStack', function() {
     });
   });
   describe('manipulate with card stack', function() {
-    interface AddMethodParameters {
+    interface AddMethodParametersOnTop {
       target: string[];
       beingAdded: string[];
+    }
+
+    interface AddMethodParameters extends AddMethodParametersOnTop {
       index?: number;
     }
 
-    interface TestCase extends AddMethodParameters {
+    interface AddTestCase extends AddMethodParameters {
       result: string[];
     }
 
-    const tests: TestCase[] = [
+    interface AddOnTopTestCase extends AddMethodParametersOnTop {
+      result: string[];
+    }
+
+    const tests: AddTestCase[] = [
       { target: ['20', '30', '60'], beingAdded: ['40', '50'], index: 1, result: ['20', '30', '40', '50', '60'] },
       { target: ['20'], beingAdded: ['30', '40'], index: 0, result: ['20', '30', '40'] },
       { target: ['20'], beingAdded: ['30'], index: 0, result: ['20', '30'] },
@@ -124,6 +131,50 @@ describe('CardStack', function() {
         for (const [i, test] of tests.entries()) {
           it(`case #${i + 1}`, function() {
             const result = addMyselfTo({ target: test.target, beingAdded: test.beingAdded, index: test.index });
+            assert.deepEqual(result, test.result);
+          });
+        }
+      });
+    });
+    describe('#addToMeOnTop', function() {
+      const addToMeOnTop = (params: AddMethodParameters): string[] => {
+        const target = stringCardsArrayToCardStack(params.target);
+        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        target.addToMeOnTop(beingAdded);
+        return cardStackToStringArray(target);
+      };
+
+      describe('should correctly add cards on top of the stack', function() {
+        const tests: AddOnTopTestCase[] = [
+          { target: ['10', '20'], beingAdded: ['30', '40'], result: ['10', '20', '30', '40'] },
+          { target: [], beingAdded: ['30', '40'], result: ['30', '40'] },
+          { target: ['10', '20'], beingAdded: [], result: ['10', '20'] },
+        ];
+        for (const [i, test] of tests.entries()) {
+          it(`case #${i + 1}`, function() {
+            const result = addToMeOnTop({ target: test.target, beingAdded: test.beingAdded });
+            assert.deepEqual(result, test.result);
+          });
+        }
+      });
+    });
+    describe('#addMyselfOnTop', function() {
+      const addMyselfOnTop = (params: AddMethodParameters): string[] => {
+        const target = stringCardsArrayToCardStack(params.target);
+        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        beingAdded.addMyselfOnTop(target);
+        return cardStackToStringArray(target);
+      };
+
+      describe('should correctly add cards on top of the stack', function() {
+        const tests: AddOnTopTestCase[] = [
+          { target: ['10', '20'], beingAdded: ['30', '40'], result: ['10', '20', '30', '40'] },
+          { target: [], beingAdded: ['30', '40'], result: ['30', '40'] },
+          { target: ['10', '20'], beingAdded: [], result: ['10', '20'] },
+        ];
+        for (const [i, test] of tests.entries()) {
+          it(`case #${i + 1}`, function() {
+            const result = addMyselfOnTop({ target: test.target, beingAdded: test.beingAdded });
             assert.deepEqual(result, test.result);
           });
         }

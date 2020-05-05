@@ -115,10 +115,10 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   // }
 
   /**
-   * Add card stack on top of the current stack
+   * Adds card stack on top of the current stack
    *
    * - \
-   * -  new card stack to be added
+   * -  Card stack to be added
    * - /
    * - \
    * -  Current stack
@@ -127,9 +127,29 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * @param cardIndex Index of the card in the current stack where to add new stack
    * @param cardStack New card stack
    */
-  // addCardStackOnTop(cardStack: CardStack): void {
-  //   this.addCardStack(cardStack, 0);
-  // }
+  addToMeOnTop(cardStack: CardStack): void {
+    if (this.isEmpty) {
+      this.addToMe(cardStack);
+    } else {
+      this.addToMe(cardStack, this.cardCount - 1);
+    }
+  }
+
+  /**
+   * Adds current card stack on top of the other stack
+   *
+   * - \
+   * -  Current stack
+   * - /
+   * - \
+   * -  Card stack to be added to
+   * - /
+   * === desk
+   * @param cardStack Card stack
+   */
+  addMyselfOnTop(cardStack: CardStack): void {
+    cardStack.addToMeOnTop(this);
+  }
 
   /**
    * Turns cards around in the stack
