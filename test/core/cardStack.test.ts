@@ -40,18 +40,29 @@ describe('CardStack', function() {
     });
   });
   describe('manipulate with card stack', function() {
-    interface AddMethodParametersOnTop {
+    type AddMethodParametersOnTop = {
       target: string[];
       beingAdded: string[];
-    }
+    };
 
-    interface AddMethodParameters extends AddMethodParametersOnTop {
+    type AddMethodParameters = AddMethodParametersOnTop & {
       index?: number;
-    }
+    };
     context('add', function() {
-      interface AddTestCase extends AddMethodParameters {
+      type AddResult = {
         result: string[];
-      }
+        targetCardCount: number;
+      };
+
+      type AddResultErrored = {
+        targetAlias: string;
+        errorMessage: string;
+      };
+
+      type AddTestCase = AddMethodParameters & {
+        result: string[];
+      };
+
       const tests: AddTestCase[] = [
         { target: ['20', '30', '60'], beingAdded: ['40', '50'], index: 1, result: ['20', '30', '40', '50', '60'] },
         { target: ['20'], beingAdded: ['30', '40'], index: 0, result: ['20', '30', '40'] },
@@ -61,51 +72,45 @@ describe('CardStack', function() {
         { target: ['10', '20'], beingAdded: [], result: ['10', '20'] },
       ];
       describe('#addToMe', function() {
-        const addToMe = (params: AddMethodParameters): string[] => {
+        const addToMe = (params: AddMethodParameters): AddResult | AddResultErrored => {
           const target = stringCardsArrayToCardStack(params.target);
           const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
-          if (params.index !== void 0) {
-            target.addToMe(beingAdded, params.index);
-          } else {
-            target.addToMe(beingAdded);
+          try {
+            if (params.index !== void 0) {
+              target.addToMe(beingAdded, params.index);
+            } else {
+              target.addToMe(beingAdded);
+            }
+            return { result: cardStackToStringArray(target), targetCardCount: target.cardCount } as AddResult;
+          } catch (error) {
+            return {
+              targetAlias: target.alias,
+              targetCardCount: target.cardCount,
+              errorMessage: error.message,
+            };
           }
-          return cardStackToStringArray(target);
         };
         it('should do nothing if card stack being added is empty', function() {
-          const cardStack = new CardStack([queenOfSpades()]);
-          const cardStackToAdd = new CardStack();
-          cardStack.addToMe(cardStackToAdd, 0);
-          assert.equal(cardStack.cardCount, 1);
+          const result = addToMe({ target: ['10'], beingAdded: [], index: 0 }) as AddResult;
+          assert.equal(result.targetCardCount, 1);
         });
         it("should throw error if card with given index doesn't exist in the card stack", function() {
-          const cardStack = new CardStack([queenOfSpades()]);
-          const cardStackToAdd = new CardStack([queenOfSpades()]);
-          const block = (): void => {
-            cardStack.addToMe(cardStackToAdd, 5);
-          };
-          assert.throws(block, { message: `Card with index 5 doesn't exist in card stack ${cardStack.alias}` });
+          const result = addToMe({ target: ['10'], beingAdded: ['10'], index: 5 }) as AddResultErrored;
+          assert.equal(result.errorMessage, `Card with index 5 doesn't exist in card stack ${result.targetAlias}`);
         });
         it('should throw error if current card stack is empty but card index is passed', function() {
-          const cardStack = new CardStack();
-          const cardStackToAdd = new CardStack([queenOfSpades()]);
-          const block = (): void => {
-            cardStack.addToMe(cardStackToAdd, 1);
-          };
-          assert.throws(block, { message: `Cannot add card stack into stack ${cardStack.alias}: target stack is empty so no card index should be passed` });
+          const result = addToMe({ target: [], beingAdded: ['10'], index: 1 }) as AddResultErrored;
+          assert.equal(result.errorMessage, `Cannot add card stack into stack ${result.targetAlias}: target stack is empty so no card index should be passed`);
         });
         it('should throw error if current card stack is not empty but card index in omitted', function() {
-          const cardStack = new CardStack([queenOfSpades()]);
-          const cardStackToAdd = new CardStack([queenOfSpades()]);
-          const block = (): void => {
-            cardStack.addToMe(cardStackToAdd);
-          };
-          assert.throws(block, { message: `Cannot add card stack into stack ${cardStack.alias}: card index is missing` });
+          const result = addToMe({ target: ['10'], beingAdded: ['10'] }) as AddResultErrored;
+          assert.equal(result.errorMessage, `Cannot add card stack into stack ${result.targetAlias}: card index is missing`);
         });
         describe('should correctly add cards to the stack', function() {
           for (const [i, test] of tests.entries()) {
             it(`case #${i + 1}`, function() {
-              const result = addToMe({ target: test.target, beingAdded: test.beingAdded, index: test.index });
-              assert.deepEqual(result, test.result);
+              const result = addToMe({ target: test.target, beingAdded: test.beingAdded, index: test.index }) as AddResult;
+              assert.deepEqual(result.result, test.result);
             });
           }
         });
@@ -132,9 +137,9 @@ describe('CardStack', function() {
       });
     });
     context('addOnTop', function() {
-      interface AddOnTopTestCase extends AddMethodParametersOnTop {
+      type AddOnTopTestCase = AddMethodParametersOnTop & {
         result: string[];
-      }
+      };
       const tests: AddOnTopTestCase[] = [
         { target: ['10', '20'], beingAdded: ['30', '40'], result: ['10', '20', '30', '40'] },
         { target: [], beingAdded: ['30', '40'], result: ['30', '40'] },
