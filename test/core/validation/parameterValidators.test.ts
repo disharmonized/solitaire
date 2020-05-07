@@ -100,4 +100,29 @@ describe('ParameterValidators', function() {
       });
     });
   });
+  describe('@validCardNumberToTake', function() {
+    describe('for single parameter', function() {
+      it('should throw error if value is negative', function() {
+        const decoratedClass = new DecoratedClass();
+        const block = (): void => {
+          decoratedClass.method5(-1);
+        };
+        assert.throws(block, { message: 'Invalid card number to take -1: should be non-negative integer' });
+      });
+      it('should throw error if value is non-integer', function() {
+        const decoratedClass = new DecoratedClass();
+        const block = (): void => {
+          decoratedClass.method5(3.1415);
+        };
+        assert.throws(block, { message: 'Invalid card number to take 3.1415: should be non-negative integer' });
+      });
+      it('should let pass through if value is positive integer number', function() {
+        const decoratedClass = new DecoratedClass();
+        const block = (): void => {
+          decoratedClass.method5(1);
+        };
+        assert.doesNotThrow(block);
+      });
+    });
+  });
 });

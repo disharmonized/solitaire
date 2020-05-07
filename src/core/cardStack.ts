@@ -1,8 +1,14 @@
 import { Card } from 'src/core';
 import { validate } from 'src/core/validation/validateMethod';
-import { validCardIndex } from 'src/core/validation/parameterValidators';
+import { validCardIndex, validCardNumberToTake } from 'src/core/validation/parameterValidators';
 import { v4 as uuidv4 } from 'uuid';
-import { CARD_INDEX_DOESNT_EXIST, MISSING_CARD_INDEX, CARD_INDEX_SHOULD_BE_OMITTED } from 'src/core/errorMessages';
+import {
+  CARD_INDEX_DOESNT_EXIST,
+  MISSING_CARD_INDEX,
+  CARD_INDEX_SHOULD_BE_OMITTED,
+  CANNOT_TAKE_CARDS_CARDSTACK_IS_EMPTY,
+  CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS,
+} from 'src/core/errorMessages';
 import { ReverseIterableArrayLike } from 'src/core/util';
 
 /**
@@ -152,7 +158,7 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Takes card stack from the top of the current stack
+   * Takes card stack from the current stack
    * -
    * -
    * -  \  first card to take
@@ -161,13 +167,22 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -
    * === desk
    * @param firstCardIndex Index of the first card in the current stack
-   * @param numberOfCardsToTake N cards to take
+   * @param numberOfCardsToTake Number of cards to take
+   * @returns {CardStack}
    */
+  @validate
+  take(@validCardIndex firstCardIndex: number, @validCardNumberToTake numberOfCardsToTake: number): CardStack {
+    if (this.isEmpty) {
+      throw new Error(CANNOT_TAKE_CARDS_CARDSTACK_IS_EMPTY(this.alias));
+    }
 
-  // takeCardStask(
-  //   firstCardIndex: number,
-  //   numberOfCardsToTake: number,
-  // ): CardStack {}
+    if (numberOfCardsToTake > this.cardCount - firstCardIndex) {
+      throw new Error(CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS(numberOfCardsToTake, this.cardCount - firstCardIndex, this.alias));
+    }
+
+    const cardsToTake = this.cards.splice(firstCardIndex, numberOfCardsToTake);
+    return new CardStack(cardsToTake);
+  }
 
   /**
    * Takes card stack from the top of the current stack
@@ -176,11 +191,15 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -  /
    * -
    * === desk
-   * @param numberOfCardsToTake n cards to take
+   * @param numberOfCardsToTake Number of cards to take
    */
-  // takeTopCardStack(numberOfCardsToTake): CardStack {
-  //   return this.takeCardStask(0, numberOfCardsToTake);
-  // }
+  @validate
+  takeTop(@validCardNumberToTake numberOfCardsToTake): CardStack {
+    if (numberOfCardsToTake > this.cardCount) {
+      throw new Error(CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS(numberOfCardsToTake, this.cardCount, this.alias));
+    }
+    return this.take(this.cardCount - numberOfCardsToTake, numberOfCardsToTake);
+  }
 
   /**
    * Turns cards around in the stack

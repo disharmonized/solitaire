@@ -28,3 +28,15 @@ export function MISSING_CARD_INDEX(cardStackAlias: string): string {
 export function CARD_INDEX_SHOULD_BE_OMITTED(cardStackAlias: string): string {
   return `Cannot add card stack into stack ${cardStackAlias}: target stack is empty so no card index should be passed`;
 }
+
+export function INVALID_CARD_NUMBER_TO_TAKE(value: number): string {
+  return `Invalid card number to take ${value}: should be non-negative integer`;
+}
+
+export function CANNOT_TAKE_CARDS_CARDSTACK_IS_EMPTY(cardStackAlias: string): string {
+  return `Cannot take cards from card stack ${cardStackAlias}: stack is empty`;
+}
+
+export function CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS(value: number, availableCardsCount: number, cardStackAlias: string): string {
+  return `Cannot take ${value} cards from card stack ${cardStackAlias}: only ${availableCardsCount} cards are available to take`;
+}

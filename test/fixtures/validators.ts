@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { validate } from 'src/core/validation/validateMethod';
-import { validCardIndex, validCardIndexesRest } from 'src/core/validation/parameterValidators';
+import { validCardIndex, validCardIndexesRest, validCardNumberToTake } from 'src/core/validation/parameterValidators';
 import { ValidationUtil, MethodValidationMetadataKey, ParameterType } from 'src/core/validation/validationUtil';
 
 export class DecoratedClass {
@@ -20,6 +20,9 @@ export class DecoratedClass {
   method4(@validCardIndex _param1: number, @validCardIndexesRest ..._param2: number[]): string {
     return [_param1, `[${_param2.join(',')}]`].join(',');
   }
+
+  @validate
+  method5(@validCardNumberToTake _param: number): void {}
 }
 
 export function dummyValidator(target: unknown, methodName: string, methodParameterIndex: number): void {
