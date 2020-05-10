@@ -2,6 +2,7 @@ import * as assert from 'assert';
 import { CardStack, SpecialRank, Suit } from 'src/core';
 import { queenOfSpades } from 'testUtils/src/cardUtil';
 import { stringCardsArrayToCardStack, cardStackToStringArray } from 'testUtils/src/cardStackUtil';
+import { runSeries } from 'testUtils/src/testSeries';
 
 describe('CardStack', function() {
   describe('#isEmpty()', function() {
@@ -107,12 +108,10 @@ describe('CardStack', function() {
           assert.equal(result.errorMessage, `Cannot add card stack into stack ${result.targetAlias}: card index is missing`);
         });
         describe('should correctly add cards to the stack', function() {
-          for (const [i, test] of tests.entries()) {
-            it(`case #${i + 1}`, function() {
-              const result = addToMe({ target: test.target, beingAdded: test.beingAdded, index: test.index }) as AddResult;
-              assert.deepEqual(result.result, test.result);
-            });
-          }
+          runSeries<AddTestCase>(tests, test => {
+            const result = addToMe({ target: test.target, beingAdded: test.beingAdded, index: test.index }) as AddResult;
+            assert.deepEqual(result.result, test.result);
+          });
         });
       });
       describe('#addMyselfTo', function() {
@@ -127,12 +126,10 @@ describe('CardStack', function() {
           return cardStackToStringArray(target);
         };
         describe('should correctly add cards to the stack', function() {
-          for (const [i, test] of tests.entries()) {
-            it(`case #${i + 1}`, function() {
-              const result = addMyselfTo({ target: test.target, beingAdded: test.beingAdded, index: test.index });
-              assert.deepEqual(result, test.result);
-            });
-          }
+          runSeries<AddTestCase>(tests, test => {
+            const result = addMyselfTo({ target: test.target, beingAdded: test.beingAdded, index: test.index });
+            assert.deepEqual(result, test.result);
+          });
         });
       });
     });
@@ -154,12 +151,10 @@ describe('CardStack', function() {
         };
 
         describe('should correctly add cards on top of the stack', function() {
-          for (const [i, test] of tests.entries()) {
-            it(`case #${i + 1}`, function() {
-              const result = addToMeOnTop({ target: test.target, beingAdded: test.beingAdded });
-              assert.deepEqual(result, test.result);
-            });
-          }
+          runSeries<AddOnTopTestCase>(tests, test => {
+            const result = addToMeOnTop({ target: test.target, beingAdded: test.beingAdded });
+            assert.deepEqual(result, test.result);
+          });
         });
       });
       describe('#addMyselfOnTop', function() {
@@ -171,12 +166,10 @@ describe('CardStack', function() {
         };
 
         describe('should correctly add cards on top of the stack', function() {
-          for (const [i, test] of tests.entries()) {
-            it(`case #${i + 1}`, function() {
-              const result = addMyselfOnTop({ target: test.target, beingAdded: test.beingAdded });
-              assert.deepEqual(result, test.result);
-            });
-          }
+          runSeries<AddOnTopTestCase>(tests, test => {
+            const result = addMyselfOnTop({ target: test.target, beingAdded: test.beingAdded });
+            assert.deepEqual(result, test.result);
+          });
         });
       });
     });
@@ -230,13 +223,11 @@ describe('CardStack', function() {
         };
 
         describe('should correctly take cards', function() {
-          for (const [i, test] of tests.entries()) {
-            it(`case #${i + 1}`, function() {
-              const result = take({ target: test.target, index: test.index, numberToTake: test.numberToTake }) as TakeResult;
-              assert.deepEqual(result.result, test.result);
-              assert.deepEqual(result.targetAfter, test.targetAfter);
-            });
-          }
+          runSeries<TakeTestCase>(tests, test => {
+            const result = take({ target: test.target, index: test.index, numberToTake: test.numberToTake }) as TakeResult;
+            assert.deepEqual(result.result, test.result);
+            assert.deepEqual(result.targetAfter, test.targetAfter);
+          });
         });
         describe('should throw error if card stack is empty', function() {
           const result = take({ target: [], index: 0, numberToTake: 1 }) as TakeResultErrored;
@@ -277,13 +268,11 @@ describe('CardStack', function() {
         };
 
         describe('should correctly take top cards of the card stack', function() {
-          for (const [i, test] of tests.entries()) {
-            it(`case #${i + 1}`, function() {
-              const result = takeTop({ target: test.target, numberToTake: test.numberToTake }) as TakeResult;
-              assert.deepEqual(result.result, test.result);
-              assert.deepEqual(result.targetAfter, test.targetAfter);
-            });
-          }
+          runSeries<TakeTopTestCase>(tests, test => {
+            const result = takeTop({ target: test.target, numberToTake: test.numberToTake }) as TakeResult;
+            assert.deepEqual(result.result, test.result);
+            assert.deepEqual(result.targetAfter, test.targetAfter);
+          });
         });
         describe('should throw error if number of cards to take is invalid', function() {
           const test: TakeTopMethodParameters = { target: ['10', '20'], numberToTake: 3 };
