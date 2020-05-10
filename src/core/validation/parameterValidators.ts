@@ -1,12 +1,12 @@
 import { ValidationUtil } from 'src/core/validation/validationUtil';
-import { INVALID_CARD_INDEX, INVALID_CARD_INDEXES, INVALID_CARD_NUMBER_TO_TAKE } from 'src/core/errorMessages';
+import { INVALID_CARD_INDEX, INVALID_CARD_INDEXES, INVALID_CARD_NUMBER_TO_TAKE, NOT_A_NON_NEGATIVE_INTEGER } from 'src/core/errorMessages';
 
-function isPositiveNaturalNumber(value: number): boolean {
+function isNonNegativeIntegerCheck(value: number): boolean {
   return Number.isInteger(value) && value > -1;
 }
 
 function isValidCardIndexCheck(value: number): boolean {
-  return value === void 0 || isPositiveNaturalNumber(value);
+  return value === void 0 || isNonNegativeIntegerCheck(value);
 }
 
 function isValidCardIndexArrayCheck(values: number[]): boolean {
@@ -20,7 +20,7 @@ function isValidCardIndexArrayCheck(values: number[]): boolean {
 }
 
 function isValidCardNumberToTakeCheck(value: number): boolean {
-  return isPositiveNaturalNumber(value);
+  return isNonNegativeIntegerCheck(value);
 }
 
 export function validCardIndex(target: unknown, methodName: string, methodParameterIndex: number): void {
@@ -43,6 +43,14 @@ export function validCardNumberToTake(target: unknown, methodName: string, metho
   ValidationUtil.createParameterValidator(target, methodName, methodParameterIndex, function isValidCardNumberToTake(value: number) {
     if (!isValidCardNumberToTakeCheck(value)) {
       throw new Error(INVALID_CARD_NUMBER_TO_TAKE(value));
+    }
+  });
+}
+
+export function nonNegativeInteger(target: unknown, methodName: string, methodParameterIndex: number): void {
+  ValidationUtil.createParameterValidator(target, methodName, methodParameterIndex, function isNonNegativeInteger(value: number) {
+    if (!isNonNegativeIntegerCheck(value)) {
+      throw new Error(NOT_A_NON_NEGATIVE_INTEGER(value));
     }
   });
 }

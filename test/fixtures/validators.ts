@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { validate } from 'src/core/validation/validateMethod';
-import { validCardIndex, validCardIndexesRest, validCardNumberToTake } from 'src/core/validation/parameterValidators';
+import { validCardIndex, validCardIndexesRest, validCardNumberToTake, nonNegativeInteger } from 'src/core/validation/parameterValidators';
 import { ValidationUtil, MethodValidationMetadataKey, ParameterType } from 'src/core/validation/validationUtil';
 
 export class DecoratedClass {
@@ -23,6 +23,9 @@ export class DecoratedClass {
 
   @validate
   method5(@validCardNumberToTake _param: number): void {}
+
+  @validate
+  nonNegativeInteger(@nonNegativeInteger _value: number): void {}
 }
 
 export function dummyValidator(target: unknown, methodName: string, methodParameterIndex: number): void {

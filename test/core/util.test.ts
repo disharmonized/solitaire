@@ -2,14 +2,32 @@ import * as assert from 'assert';
 import { Util, parseRank } from 'src/core/util';
 import { DummyReverseIterableClass } from 'test/fixtures/reverseIterableArrays';
 import { RankValueBounds } from 'src/core';
+import { runSeries } from 'testUtils/src/testSeries';
 
 describe('Util', function() {
-  describe('#createArrayOfSeqIndexes()', function() {
-    it('should return correct value for N=1', function() {
-      assert.deepEqual(Util.createArrayOfSeqIndexes(1), [0]);
+  describe('#range()', function() {
+    context('positive cases', function() {
+      const tests = [
+        { startOrRange: 1, result: [0] },
+        { startOrRange: 3, result: [0, 1, 2] },
+        { startOrRange: { start: 0, end: 1 }, result: [0] },
+        { startOrRange: { start: 0, end: 2 }, result: [0, 1] },
+        { startOrRange: { start: 1, end: 2 }, result: [1] },
+        { startOrRange: { start: 1, end: 3 }, result: [1, 2] },
+        { startOrRange: { start: 5, end: 8 }, result: [5, 6, 7] },
+      ];
+      runSeries(tests, test => {
+        assert.deepEqual(Util.range(test.startOrRange), test.result);
+      });
     });
-    it('should return correct value for N=3', function() {
-      assert.deepEqual(Util.createArrayOfSeqIndexes(3), [0, 1, 2]);
+    context('negative cases', function() {
+      const tests = [
+        { startOrRange: { start: 1, end: 0 }, expectedErrorMessage: 'Cannot create range: start value 1 is greater than end value 0' },
+        { startOrRange: { start: 1, end: 1 }, expectedErrorMessage: 'Cannot create range: start value 1 equals end value' },
+      ];
+      runSeries(tests, test => {
+        assert.throws(() => Util.range(test.startOrRange), { message: test.expectedErrorMessage });
+      });
     });
   });
   describe('#parseRank()', function() {

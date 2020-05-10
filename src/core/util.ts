@@ -1,17 +1,41 @@
 import { Rank } from 'src/core';
 import { RankValueBounds } from 'src/core';
-import { INVALID_RANK_VALUE } from 'src/core/errorMessages';
+import {
+  INVALID_RANK_VALUE,
+  RANGE_START_VALUE_IS_GREATER_THEN_END_VALUE as RANGE_START_VALUE_IS_GREATER_THAN_END_VALUE,
+  RANGE_START_VALUE_EQUALS_END_VALUE,
+} from 'src/core/errorMessages';
 
 /**
  * Class Util. Various utility methods.
  */
 export class Util {
   /**
-   * N -> [0, 1, 2, ..., N-1]
+   * Creates array of range nof non-negative integers. Latter bound is non-inclusive.
+   * Examples:
+   * range(3) returns [0, 1, 2]
+   * range({start: 1, end: 4}) returns [1, 2, 3]
+   * @throws error if input values are not non-negative integers.
+   * @throws error if start value is greater than end value.
+   * @throws error if start value equals end value.
    * @param size
    */
-  static createArrayOfSeqIndexes(size: number): number[] {
-    return new Array(size).fill(null).map((_v, i) => i);
+  static range(sizeOrRange: number | { start: number; end: number }): number[] {
+    let start: number, length: number;
+    if (typeof sizeOrRange === 'number') {
+      length = sizeOrRange;
+      start = 0;
+    } else {
+      if (sizeOrRange.start > sizeOrRange.end) {
+        throw new Error(RANGE_START_VALUE_IS_GREATER_THAN_END_VALUE(sizeOrRange.start, sizeOrRange.end));
+      }
+      if (sizeOrRange.start === sizeOrRange.end) {
+        throw new Error(RANGE_START_VALUE_EQUALS_END_VALUE(sizeOrRange.start));
+      }
+      length = sizeOrRange.end - sizeOrRange.start;
+      start = sizeOrRange.start;
+    }
+    return Array.from({ length }, (_, i) => start + i);
   }
 }
 

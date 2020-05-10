@@ -125,4 +125,15 @@ describe('ParameterValidators', function() {
       });
     });
   });
+
+  describe('@nonNegativeInteger', function() {
+    it('should throw error if value is invalid', function() {
+      const decoratedClass = new DecoratedClass();
+      assert.throws(() => decoratedClass.nonNegativeInteger(-1), { message: 'Invalid value -1: should be non-negative integer' });
+    });
+    it('should let pass through if value is valid', function() {
+      const decoratedClass = new DecoratedClass();
+      assert.doesNotThrow(() => decoratedClass.nonNegativeInteger(1));
+    });
+  });
 });

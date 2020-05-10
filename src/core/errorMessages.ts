@@ -40,3 +40,15 @@ export function CANNOT_TAKE_CARDS_CARDSTACK_IS_EMPTY(cardStackAlias: string): st
 export function CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS(value: number, availableCardsCount: number, cardStackAlias: string): string {
   return `Cannot take ${value} cards from card stack ${cardStackAlias}: only ${availableCardsCount} cards are available to take`;
 }
+
+export function RANGE_START_VALUE_IS_GREATER_THEN_END_VALUE(start: number, end: number): string {
+  return `Cannot create range: start value ${start} is greater than end value ${end}`;
+}
+
+export function RANGE_START_VALUE_EQUALS_END_VALUE(start: number): string {
+  return `Cannot create range: start value ${start} equals end value`;
+}
+
+export function NOT_A_NON_NEGATIVE_INTEGER(value: number): string {
+  return `Invalid value ${value}: should be non-negative integer`;
+}
