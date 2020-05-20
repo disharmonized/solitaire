@@ -1,22 +1,23 @@
-import { CardStack, Card, Suit, Rank } from 'src/core';
+import { Card, CardColor, CardStack, Rank, Suit } from 'src/core';
 import { parseRank } from 'src/core/util';
+import { parseCardColorFromString, SimpleCardColor } from 'testUtils/src/cardUtil';
 
 export function parseCardFromString(stringCard: string): Card {
-  if (stringCard.length !== 2) {
-    throw new Error(`Invalid stringCard.length ${stringCard.length}: length should be 2`);
+  if (stringCard.length !== 3) {
+    throw new Error(`Invalid stringCard.length ${stringCard.length}: length should be 3`);
   }
-  const [stringRank, stringSuit] = stringCard.toLowerCase().split('');
+  const [stringRank, stringSuit, stringColor] = stringCard.toLowerCase().split('');
   const rank: Rank = parseRank(Number.parseInt(stringRank, 16));
   const suit: Suit = Number.parseInt(stringSuit, 10);
-
+  const color: CardColor = parseCardColorFromString(stringColor);
   if (!(stringSuit in Suit)) {
     throw new Error(`Invalid suit ${stringSuit}: it doesn't exist in Suit type`);
   }
-  return new Card(suit, rank);
+  return new Card(suit, rank, color);
 }
 
 export function cardToString(card: Card): string {
-  return `${card.rank.toString(16)}${card.suit}`;
+  return `${card.rank.toString(16)}${card.suit}${(card.color as SimpleCardColor).toString()}`;
 }
 
 export function stringCardsArrayToCardStack(stringCards: string[]): CardStack {

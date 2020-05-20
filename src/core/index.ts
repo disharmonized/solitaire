@@ -37,3 +37,8 @@ export interface MoveCardsFromCardStack {
   destStack: CardStack;
   destIndex?: number;
 }
+
+export interface CardColor {
+  name?: string;
+  code?: string;
+}

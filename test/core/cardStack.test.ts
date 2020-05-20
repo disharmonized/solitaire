@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { CardStack, SpecialRank, Suit } from 'src/core';
-import { queenOfSpades } from 'testUtils/src/cardUtil';
-import { stringCardsArrayToCardStack, cardStackToStringArray } from 'testUtils/src/cardStackUtil';
+import { cardStackToStringArray, stringCardsArrayToCardStack } from 'testUtils/src/cardStackUtil';
+import { blackQueenOfSpades } from 'testUtils/src/cardUtil';
 import { runSeries } from 'testUtils/src/testSeries';
 
 describe('CardStack', function() {
@@ -11,13 +11,13 @@ describe('CardStack', function() {
       assert.equal(cardStack.isEmpty, true);
     });
     it('should return false is card stack is not empty', function() {
-      const cardStack = new CardStack([queenOfSpades()]);
+      const cardStack = new CardStack([blackQueenOfSpades()]);
       assert.equal(cardStack.isEmpty, false);
     });
   });
   describe('#cardExists()', function() {
     it('should return true if card exists', function() {
-      const cardStack = new CardStack([queenOfSpades()]);
+      const cardStack = new CardStack([blackQueenOfSpades()]);
       assert.equal(cardStack.cardExists(0), true);
     });
     it("should return false is card doesn't exist", function() {
@@ -27,13 +27,13 @@ describe('CardStack', function() {
   });
   describe('#getCard()', function() {
     it('should return card if it exists', function() {
-      const cardStack = new CardStack([queenOfSpades()]);
+      const cardStack = new CardStack([blackQueenOfSpades()]);
       const card = cardStack.getCard(0);
       assert.equal(card.rank, SpecialRank.QUENN);
       assert.equal(card.suit, Suit.SPADES);
     });
     it("should throw error if card doesn't exist", function() {
-      const cardStack = new CardStack([queenOfSpades()]);
+      const cardStack = new CardStack([blackQueenOfSpades()]);
       const block = (): void => {
         cardStack.getCard(5);
       };
@@ -65,12 +65,12 @@ describe('CardStack', function() {
       };
 
       const tests: AddTestCase[] = [
-        { target: ['20', '30', '60'], beingAdded: ['40', '50'], index: 1, result: ['20', '30', '40', '50', '60'] },
-        { target: ['20'], beingAdded: ['30', '40'], index: 0, result: ['20', '30', '40'] },
-        { target: ['20'], beingAdded: ['30'], index: 0, result: ['20', '30'] },
-        { target: ['20', '30'], beingAdded: ['40', '50'], index: 1, result: ['20', '30', '40', '50'] },
-        { target: [], beingAdded: ['10', '20'], result: ['10', '20'] },
-        { target: ['10', '20'], beingAdded: [], result: ['10', '20'] },
+        { target: ['200', '300', '600'], beingAdded: ['400', '500'], index: 1, result: ['200', '300', '400', '500', '600'] },
+        { target: ['200'], beingAdded: ['300', '400'], index: 0, result: ['200', '300', '400'] },
+        { target: ['200'], beingAdded: ['300'], index: 0, result: ['200', '300'] },
+        { target: ['200', '300'], beingAdded: ['400', '500'], index: 1, result: ['200', '300', '400', '500'] },
+        { target: [], beingAdded: ['100', '200'], result: ['100', '200'] },
+        { target: ['100', '200'], beingAdded: [], result: ['100', '200'] },
       ];
       describe('#addToMe', function() {
         const addToMe = (params: AddMethodParameters): AddResult | AddResultErrored => {
@@ -92,19 +92,19 @@ describe('CardStack', function() {
           }
         };
         it('should do nothing if card stack being added is empty', function() {
-          const result = addToMe({ target: ['10'], beingAdded: [], index: 0 }) as AddResult;
+          const result = addToMe({ target: ['100'], beingAdded: [], index: 0 }) as AddResult;
           assert.equal(result.targetCardCount, 1);
         });
         it("should throw error if card with given index doesn't exist in the card stack", function() {
-          const result = addToMe({ target: ['10'], beingAdded: ['10'], index: 5 }) as AddResultErrored;
+          const result = addToMe({ target: ['100'], beingAdded: ['100'], index: 5 }) as AddResultErrored;
           assert.equal(result.errorMessage, `Card with index 5 doesn't exist in card stack ${result.targetAlias}`);
         });
         it('should throw error if current card stack is empty but card index is passed', function() {
-          const result = addToMe({ target: [], beingAdded: ['10'], index: 1 }) as AddResultErrored;
+          const result = addToMe({ target: [], beingAdded: ['100'], index: 1 }) as AddResultErrored;
           assert.equal(result.errorMessage, `Cannot add card stack into stack ${result.targetAlias}: target stack is empty so no card index should be passed`);
         });
         it('should throw error if current card stack is not empty but card index in omitted', function() {
-          const result = addToMe({ target: ['10'], beingAdded: ['10'] }) as AddResultErrored;
+          const result = addToMe({ target: ['100'], beingAdded: ['100'] }) as AddResultErrored;
           assert.equal(result.errorMessage, `Cannot add card stack into stack ${result.targetAlias}: card index is missing`);
         });
         describe('should correctly add cards to the stack', function() {
@@ -138,9 +138,9 @@ describe('CardStack', function() {
         result: string[];
       };
       const tests: AddOnTopTestCase[] = [
-        { target: ['10', '20'], beingAdded: ['30', '40'], result: ['10', '20', '30', '40'] },
-        { target: [], beingAdded: ['30', '40'], result: ['30', '40'] },
-        { target: ['10', '20'], beingAdded: [], result: ['10', '20'] },
+        { target: ['100', '200'], beingAdded: ['300', '400'], result: ['100', '200', '300', '400'] },
+        { target: [], beingAdded: ['300', '400'], result: ['300', '400'] },
+        { target: ['100', '200'], beingAdded: [], result: ['100', '200'] },
       ];
       describe('#addToMeOnTop', function() {
         const addToMeOnTop = (params: AddMethodParameters): string[] => {
@@ -198,12 +198,12 @@ describe('CardStack', function() {
       describe('#take', function() {
         type TakeTestCase = TakeMethodParameters & TakeResult;
         const tests: TakeTestCase[] = [
-          { target: ['10', '20', '30'], index: 0, numberToTake: 3, result: ['10', '20', '30'], targetAfter: [] },
-          { target: ['10', '20', '30'], index: 0, numberToTake: 2, result: ['10', '20'], targetAfter: ['30'] },
-          { target: ['10', '20', '30'], index: 0, numberToTake: 1, result: ['10'], targetAfter: ['20', '30'] },
-          { target: ['10', '20', '30'], index: 1, numberToTake: 2, result: ['20', '30'], targetAfter: ['10'] },
-          { target: ['10', '20', '30'], index: 1, numberToTake: 1, result: ['20'], targetAfter: ['10', '30'] },
-          { target: ['10', '20', '30'], index: 2, numberToTake: 1, result: ['30'], targetAfter: ['10', '20'] },
+          { target: ['100', '200', '300'], index: 0, numberToTake: 3, result: ['100', '200', '300'], targetAfter: [] },
+          { target: ['100', '200', '300'], index: 0, numberToTake: 2, result: ['100', '200'], targetAfter: ['300'] },
+          { target: ['100', '200', '300'], index: 0, numberToTake: 1, result: ['100'], targetAfter: ['200', '300'] },
+          { target: ['100', '200', '300'], index: 1, numberToTake: 2, result: ['200', '300'], targetAfter: ['100'] },
+          { target: ['100', '200', '300'], index: 1, numberToTake: 1, result: ['200'], targetAfter: ['100', '300'] },
+          { target: ['100', '200', '300'], index: 2, numberToTake: 1, result: ['300'], targetAfter: ['100', '200'] },
         ];
         const take = (params: TakeMethodParameters): TakeResult | TakeResultErrored => {
           const target = stringCardsArrayToCardStack(params.target);
@@ -234,7 +234,7 @@ describe('CardStack', function() {
           assert.equal(result.error.message, `Cannot take cards from card stack ${result.targetAlias}: stack is empty`);
         });
         describe('should throw error if number of cards to take is invalid', function() {
-          const test: TakeMethodParameters = { target: ['10', '20'], index: 0, numberToTake: 3 };
+          const test: TakeMethodParameters = { target: ['100', '200'], index: 0, numberToTake: 3 };
           const result = take(test) as TakeResultErrored;
           assert.equal(
             result.error.message,
@@ -246,9 +246,9 @@ describe('CardStack', function() {
       describe('#takeTop', function() {
         type TakeTopTestCase = TakeTopMethodParameters & TakeResult;
         const tests: TakeTopTestCase[] = [
-          { target: ['10', '20', '30'], numberToTake: 3, result: ['10', '20', '30'], targetAfter: [] },
-          { target: ['10', '20', '30'], numberToTake: 2, result: ['20', '30'], targetAfter: ['10'] },
-          { target: ['10', '20', '30'], numberToTake: 1, result: ['30'], targetAfter: ['10', '20'] },
+          { target: ['100', '200', '300'], numberToTake: 3, result: ['100', '200', '300'], targetAfter: [] },
+          { target: ['100', '200', '300'], numberToTake: 2, result: ['200', '300'], targetAfter: ['100'] },
+          { target: ['100', '200', '300'], numberToTake: 1, result: ['300'], targetAfter: ['100', '200'] },
         ];
         const takeTop = (params: TakeTopMethodParameters): TakeResult | TakeResultErrored => {
           const target = stringCardsArrayToCardStack(params.target);
@@ -275,7 +275,7 @@ describe('CardStack', function() {
           });
         });
         describe('should throw error if number of cards to take is invalid', function() {
-          const test: TakeTopMethodParameters = { target: ['10', '20'], numberToTake: 3 };
+          const test: TakeTopMethodParameters = { target: ['100', '200'], numberToTake: 3 };
           const result = takeTop(test) as TakeResultErrored;
           assert.equal(
             result.error.message,

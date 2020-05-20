@@ -1,4 +1,4 @@
-import { Suit, Rank } from 'src/core';
+import { CardColor, Rank, Suit } from 'src/core';
 
 /**
  * Card class
@@ -6,11 +6,12 @@ import { Suit, Rank } from 'src/core';
 export class Card {
   /**
    * Card constructor
-   * @param {*} suit
-   * @param {*} rank From 1 to 13 (1 - Ace, 11 - Jack, 12 - Quenn, 13 - King)
-   * @param {*} isFacedUp Whether card is faced up or not
+   * @param {Suit} suit Suit of the card
+   * @param {Rank} rank Rank of the card
+   * @param {CardColor} color Color of the card
+   * @param {boolean} isFacedUp Whether card is faced up or not
    */
-  constructor(private _suit: Suit, private _rank: Rank, private _isFacedUp = false) {}
+  constructor(private _suit: Suit, private _rank: Rank, private _color: CardColor, private _isFacedUp = false) {}
 
   get isFacedUp(): boolean {
     return this._isFacedUp;
@@ -22,6 +23,10 @@ export class Card {
 
   get suit(): Suit {
     return this._suit;
+  }
+
+  get color(): CardColor {
+    return this._color;
   }
 
   /**

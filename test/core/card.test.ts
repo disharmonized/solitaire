@@ -1,11 +1,11 @@
 import * as assert from 'assert';
-import { Suit, SpecialRank } from 'src/core';
-import { queenOfSpades } from 'testUtils/src/cardUtil';
+import { Card, SpecialRank, Suit } from 'src/core';
+import { blackQueenOfSpades, SimpleCardColors } from 'testUtils/src/cardUtil';
 
 describe('Card', function() {
-  let card;
+  let card: Card;
   beforeEach(function() {
-    card = queenOfSpades();
+    card = blackQueenOfSpades();
   });
   describe('#isFacedUp()', function() {
     it('should return correct value', function() {
@@ -20,6 +20,11 @@ describe('Card', function() {
   describe('#suit()', function() {
     it('should return correct value', function() {
       assert.equal(card.suit, Suit.SPADES);
+    });
+  });
+  describe('#color()', function() {
+    it('should return correct value', function() {
+      assert.equal(card.color, SimpleCardColors.Black);
     });
   });
   describe('#roll()', function() {
