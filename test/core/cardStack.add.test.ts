@@ -1,6 +1,6 @@
-import { stringCardsArrayToCardStack, cardStackToStringArray } from 'testUtils/src/cardStackUtil';
 import { runSeries } from 'testUtils/src/testSeries';
 import * as assert from 'assert';
+import { CardStackSerializer } from 'testUtils/src/cardStackSerializer';
 
 export function addTest(): void {
   type AddMethodParametersOnTop = {
@@ -12,6 +12,8 @@ export function addTest(): void {
     index?: number;
   };
   context('add', function() {
+    let serializer: CardStackSerializer;
+
     type AddResult = {
       result: string[];
       targetCardCount: number;
@@ -34,17 +36,21 @@ export function addTest(): void {
       { target: [], beingAdded: ['100', '200'], result: ['100', '200'] },
       { target: ['100', '200'], beingAdded: [], result: ['100', '200'] },
     ];
+
+    beforeEach(function() {
+      serializer = new CardStackSerializer({});
+    });
     describe('#addToMe', function() {
       const addToMe = (params: AddMethodParameters): AddResult | AddResultErrored => {
-        const target = stringCardsArrayToCardStack(params.target);
-        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        const target = serializer.stringCardsArrayToCardStack(params.target);
+        const beingAdded = serializer.stringCardsArrayToCardStack(params.beingAdded);
         try {
           if (params.index !== void 0) {
             target.addToMe(beingAdded, params.index);
           } else {
             target.addToMe(beingAdded);
           }
-          return { result: cardStackToStringArray(target), targetCardCount: target.cardCount } as AddResult;
+          return { result: serializer.cardStackToStringArray(target), targetCardCount: target.cardCount } as AddResult;
         } catch (error) {
           return {
             targetAlias: target.alias,
@@ -78,14 +84,14 @@ export function addTest(): void {
     });
     describe('#addMyselfTo', function() {
       const addMyselfTo = (params: AddMethodParameters): string[] => {
-        const target = stringCardsArrayToCardStack(params.target);
-        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        const target = serializer.stringCardsArrayToCardStack(params.target);
+        const beingAdded = serializer.stringCardsArrayToCardStack(params.beingAdded);
         if (params.index !== void 0) {
           beingAdded.addMyselfTo(target, params.index);
         } else {
           beingAdded.addMyselfTo(target);
         }
-        return cardStackToStringArray(target);
+        return serializer.cardStackToStringArray(target);
       };
       describe('should correctly add cards to the stack', function() {
         runSeries<AddTestCase>(tests, test => {
@@ -96,20 +102,27 @@ export function addTest(): void {
     });
   });
   context('addOnTop', function() {
+    let serializer: CardStackSerializer;
+
     type AddOnTopTestCase = AddMethodParametersOnTop & {
       result: string[];
     };
+
     const tests: AddOnTopTestCase[] = [
       { target: ['100', '200'], beingAdded: ['300', '400'], result: ['100', '200', '300', '400'] },
       { target: [], beingAdded: ['300', '400'], result: ['300', '400'] },
       { target: ['100', '200'], beingAdded: [], result: ['100', '200'] },
     ];
+
+    beforeEach(function() {
+      serializer = new CardStackSerializer({});
+    });
     describe('#addToMeOnTop', function() {
       const addToMeOnTop = (params: AddMethodParameters): string[] => {
-        const target = stringCardsArrayToCardStack(params.target);
-        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        const target = serializer.stringCardsArrayToCardStack(params.target);
+        const beingAdded = serializer.stringCardsArrayToCardStack(params.beingAdded);
         target.addToMeOnTop(beingAdded);
-        return cardStackToStringArray(target);
+        return serializer.cardStackToStringArray(target);
       };
 
       describe('should correctly add cards on top of the stack', function() {
@@ -121,10 +134,10 @@ export function addTest(): void {
     });
     describe('#addMyselfOnTop', function() {
       const addMyselfOnTop = (params: AddMethodParameters): string[] => {
-        const target = stringCardsArrayToCardStack(params.target);
-        const beingAdded = stringCardsArrayToCardStack(params.beingAdded);
+        const target = serializer.stringCardsArrayToCardStack(params.target);
+        const beingAdded = serializer.stringCardsArrayToCardStack(params.beingAdded);
         beingAdded.addMyselfOnTop(target);
-        return cardStackToStringArray(target);
+        return serializer.cardStackToStringArray(target);
       };
 
       describe('should correctly add cards on top of the stack', function() {
