@@ -1,6 +1,6 @@
 import { Card } from 'src/core';
 import { validate } from 'src/core/validation/validateMethod';
-import { validCardIndex, validCardNumberToTake } from 'src/core/validation/parameterValidators';
+import { validCardIndex, validCardNumberToTake, validCardIndexesRest, notEmptyArrayRest, nonNegativeInteger } from 'src/core/validation/parameterValidators';
 import { v4 as uuidv4 } from 'uuid';
 import {
   CARD_INDEX_DOESNT_EXIST,
@@ -8,8 +8,12 @@ import {
   CARD_INDEX_SHOULD_BE_OMITTED,
   CANNOT_TAKE_CARDS_CARDSTACK_IS_EMPTY,
   CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS,
+  CANNOT_TURN_AROUND_CARDS_IN_EMPTY_CARDSTACK,
+  TURN_AROUND_INDEXES_NOT_FOUND,
+  TURN_TOP_CARDS_AROUND_NUMBER_OF_CARDS_EXCEEDS_CARDS_COUNT,
+  TURN_START_INDEX_VALUE_IS_GREATER_OR_EQUALS_END_INDEX_VALUE,
 } from 'src/core/errorMessages';
-import { ReverseIterableArrayLike } from 'src/core/util';
+import { ReverseIterableArrayLike, Util } from 'src/core/util';
 
 /**
  * Card stack class. Beginning of the stack is the upper card.
@@ -202,24 +206,62 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Turns cards around in the stack
-   * @param cardsIndexes Indexes of cards to turn around
+   * Turns cards around
+   * @param {...number[]} cardsIndexes indexes of cards
    */
-  // turnCardsAround(...cardsIndexes: number[]): void {}
+  @validate
+  turnCardsAround(@validCardIndexesRest @notEmptyArrayRest ...cardsIndexes: number[]): void {
+    if (this.isEmpty) {
+      throw new Error(CANNOT_TURN_AROUND_CARDS_IN_EMPTY_CARDSTACK());
+    }
+    const dedupedAndSortedIndexes = Array.from(new Set(cardsIndexes)).sort();
+    const notFoundIndexes = dedupedAndSortedIndexes.filter(cardIndex => !Object.prototype.hasOwnProperty.call(this.cards, cardIndex)).sort();
+    if (notFoundIndexes.length > 0) {
+      throw new Error(TURN_AROUND_INDEXES_NOT_FOUND(notFoundIndexes));
+    }
+
+    for (const cardIndex of dedupedAndSortedIndexes) {
+      this.cards[cardIndex].turnAround();
+    }
+  }
 
   /**
-   * Turns top card around
+   * Turns card range around
+   * @param {number} startIndex start card index
+   * @param {number} endIndex end card index, non-inclusive
    */
-  // turnTopCardAround(): void {
-  //   this.turnCardsAround(0);
-  // }
+  @validate
+  turnCardRangeAround(@validCardIndex startIndex: number, @validCardIndex endIndex: number): void {
+    if (startIndex > endIndex - 1) {
+      throw new Error(TURN_START_INDEX_VALUE_IS_GREATER_OR_EQUALS_END_INDEX_VALUE(startIndex, endIndex));
+    }
+    if (startIndex === endIndex - 1) {
+      this.turnCardsAround(startIndex);
+    } else {
+      this.turnCardsAround(...Util.range({ start: startIndex, end: endIndex }));
+    }
+  }
 
   /**
    * Turns top cards around
    *  @param numberOfCards number of top cards to turn around
    */
-  // turnTopCardsAround(numberOfCards: number): void {
-  //   const cardIndexes = createArrayOfSeqIndexes(numberOfCards);
-  //   this.turnCardsAround(...cardIndexes);
-  // }
+  @validate
+  turnTopCardsAround(@nonNegativeInteger numberOfCards: number): void {
+    if (this.isEmpty) {
+      throw new Error(CANNOT_TURN_AROUND_CARDS_IN_EMPTY_CARDSTACK());
+    }
+    if (numberOfCards > this.cardCount) {
+      throw new Error(TURN_TOP_CARDS_AROUND_NUMBER_OF_CARDS_EXCEEDS_CARDS_COUNT(numberOfCards, this.cardCount));
+    }
+    const cardIndexes = Util.range(numberOfCards);
+    this.turnCardsAround(...cardIndexes);
+  }
+
+  /**
+   * Turns top card around
+   */
+  turnTopCardAround(): void {
+    this.turnCardsAround(0);
+  }
 }

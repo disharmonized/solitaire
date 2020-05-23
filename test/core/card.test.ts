@@ -27,9 +27,9 @@ describe('Card', function() {
       assert.equal(card.color, SimpleCardColors.Black);
     });
   });
-  describe('#roll()', function() {
-    it('should roll the card correctly', function() {
-      card.roll();
+  describe('#turnAround()', function() {
+    it('should roturn around the card correctly', function() {
+      card.turnAround();
       assert.equal(card.isFacedUp, true);
     });
   });

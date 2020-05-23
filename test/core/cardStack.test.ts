@@ -3,6 +3,7 @@ import { CardStack, SpecialRank, Suit } from 'src/core';
 import { blackQueenOfSpades } from 'testUtils/src/cardUtil';
 import { addTest } from 'test/core/cardStack.add.test';
 import { takeTest } from 'test/core/cardStack.take.test';
+import { turnAroundTest } from 'test/core/cardStack.turnAround.test';
 
 describe('CardStack', function() {
   describe('#isEmpty()', function() {
@@ -44,5 +45,6 @@ describe('CardStack', function() {
   context('manipulate with cardStack', function() {
     addTest();
     takeTest();
+    turnAroundTest();
   });
 });

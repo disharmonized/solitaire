@@ -1,8 +1,11 @@
 import { ValidationUtil } from 'src/core/validation/validationUtil';
-import { INVALID_CARD_INDEX, INVALID_CARD_INDEXES, INVALID_CARD_NUMBER_TO_TAKE, NOT_A_NON_NEGATIVE_INTEGER } from 'src/core/errorMessages';
+import { INVALID_CARD_INDEX, INVALID_CARD_INDEXES, INVALID_CARD_NUMBER_TO_TAKE, NOT_A_NON_NEGATIVE_INTEGER, EMPTY_ARRAY } from 'src/core/errorMessages';
 
 function isNonNegativeIntegerCheck(value: number): boolean {
   return Number.isInteger(value) && value > -1;
+}
+function isArrayEmptyCheck(value: unknown[]): boolean {
+  return value.length !== 0;
 }
 
 function isValidCardIndexCheck(value: number): boolean {
@@ -51,6 +54,14 @@ export function nonNegativeInteger(target: unknown, methodName: string, methodPa
   ValidationUtil.createParameterValidator(target, methodName, methodParameterIndex, function isNonNegativeInteger(value: number) {
     if (!isNonNegativeIntegerCheck(value)) {
       throw new Error(NOT_A_NON_NEGATIVE_INTEGER(value));
+    }
+  });
+}
+
+export function notEmptyArrayRest(target: unknown, methodName: string, methodParameterIndex: number): void {
+  ValidationUtil.createRestParameterValidator(target, methodName, methodParameterIndex, function isArrayEmpty(value: number[]) {
+    if (!isArrayEmptyCheck(value)) {
+      throw new Error(EMPTY_ARRAY());
     }
   });
 }

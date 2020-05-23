@@ -85,7 +85,7 @@ describe('CardStackSerializer', function() {
       });
       it('should correctly serialize card to string if string isFacedUp value is +', function() {
         const card = blackQueenOfSpades();
-        card.roll();
+        card.turnAround();
         const stringCard = serializer.cardToString(card);
         assert.equal(stringCard, 'c30+');
       });

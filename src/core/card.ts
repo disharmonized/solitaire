@@ -30,9 +30,9 @@ export class Card {
   }
 
   /**
-   * Roll card
+   * Turns around card
    */
-  roll(): void {
+  turnAround(): void {
     this._isFacedUp = !this.isFacedUp;
   }
 }

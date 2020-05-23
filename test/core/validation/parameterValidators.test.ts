@@ -125,7 +125,6 @@ describe('ParameterValidators', function() {
       });
     });
   });
-
   describe('@nonNegativeInteger', function() {
     it('should throw error if value is invalid', function() {
       const decoratedClass = new DecoratedClass();
@@ -134,6 +133,18 @@ describe('ParameterValidators', function() {
     it('should let pass through if value is valid', function() {
       const decoratedClass = new DecoratedClass();
       assert.doesNotThrow(() => decoratedClass.nonNegativeInteger(1));
+    });
+  });
+  describe('@notEmptyArrayRest', function() {
+    describe('for single parameter', function() {
+      it('should throw error if array is empty', function() {
+        const decoratedClass = new DecoratedClass();
+        assert.throws(() => decoratedClass.emptyArray(), { message: 'Invalid value: array is empty' });
+      });
+      it('should let pass through if array is not empty', function() {
+        const decoratedClass = new DecoratedClass();
+        assert.doesNotThrow(() => decoratedClass.nonEmptyArray(1, 2, 3));
+      });
     });
   });
 });
