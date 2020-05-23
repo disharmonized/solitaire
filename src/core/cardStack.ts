@@ -1,19 +1,19 @@
 import { Card } from 'src/core';
-import { validate } from 'src/core/validation/validateMethod';
-import { validCardIndex, validCardNumberToTake, validCardIndexesRest, notEmptyArrayRest, nonNegativeInteger } from 'src/core/validation/parameterValidators';
-import { v4 as uuidv4 } from 'uuid';
 import {
-  CARD_INDEX_DOESNT_EXIST,
-  MISSING_CARD_INDEX,
-  CARD_INDEX_SHOULD_BE_OMITTED,
   CANNOT_TAKE_CARDS_CARDSTACK_IS_EMPTY,
   CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS,
   CANNOT_TURN_AROUND_CARDS_IN_EMPTY_CARDSTACK,
+  CARD_INDEX_DOESNT_EXIST,
+  CARD_INDEX_SHOULD_BE_OMITTED,
+  MISSING_CARD_INDEX,
   TURN_AROUND_INDEXES_NOT_FOUND,
-  TURN_TOP_CARDS_AROUND_NUMBER_OF_CARDS_EXCEEDS_CARDS_COUNT,
   TURN_START_INDEX_VALUE_IS_GREATER_OR_EQUALS_END_INDEX_VALUE,
+  TURN_TOP_CARDS_AROUND_NUMBER_OF_CARDS_EXCEEDS_CARDS_COUNT,
 } from 'src/core/errorMessages';
 import { ReverseIterableArrayLike, Util } from 'src/core/util';
+import { nonNegativeInteger, notEmptyArrayRest, validCardIndex, validCardIndexesRest, validCardNumberToTake } from 'src/core/validation/parameterValidators';
+import { validate } from 'src/core/validation/validateMethod';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Card stack class. Beginning of the stack is the upper card.

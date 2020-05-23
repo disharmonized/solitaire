@@ -1,9 +1,8 @@
-import { Rank } from 'src/core';
-import { RankValueBounds } from 'src/core';
+import { Rank, RankValueBounds } from 'src/core';
 import {
   INVALID_RANK_VALUE,
-  RANGE_START_VALUE_IS_GREATER_THEN_END_VALUE as RANGE_START_VALUE_IS_GREATER_THAN_END_VALUE,
   RANGE_START_VALUE_EQUALS_END_VALUE,
+  RANGE_START_VALUE_IS_GREATER_THEN_END_VALUE as RANGE_START_VALUE_IS_GREATER_THAN_END_VALUE,
 } from 'src/core/errorMessages';
 
 /**

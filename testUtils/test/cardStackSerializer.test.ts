@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { Card, CardStack, RankValueBounds, SpecialRank, Suit } from 'src/core';
-import { blackQueenOfSpades, SimpleCardColors } from 'testUtils/src/cardUtil';
 import { CardStackSerializer } from 'testUtils/src/cardStackSerializer';
+import { blackQueenOfSpades, SimpleCardColors } from 'testUtils/src/cardUtil';
 
 describe('CardStackSerializer', function() {
   describe('#parseCardFromString()', function() {

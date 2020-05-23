@@ -1,5 +1,5 @@
+import { EMPTY_ARRAY, INVALID_CARD_INDEX, INVALID_CARD_INDEXES, INVALID_CARD_NUMBER_TO_TAKE, NOT_A_NON_NEGATIVE_INTEGER } from 'src/core/errorMessages';
 import { ValidationUtil } from 'src/core/validation/validationUtil';
-import { INVALID_CARD_INDEX, INVALID_CARD_INDEXES, INVALID_CARD_NUMBER_TO_TAKE, NOT_A_NON_NEGATIVE_INTEGER, EMPTY_ARRAY } from 'src/core/errorMessages';
 
 function isNonNegativeIntegerCheck(value: number): boolean {
   return Number.isInteger(value) && value > -1;

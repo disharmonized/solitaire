@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import { Util, parseRank } from 'src/core/util';
-import { DummyReverseIterableClass } from 'test/fixtures/reverseIterableArrays';
 import { RankValueBounds } from 'src/core';
+import { parseRank, Util } from 'src/core/util';
+import { DummyReverseIterableClass } from 'test/fixtures/reverseIterableArrays';
 import { runSeries } from 'testUtils/src/testSeries';
 
 describe('Util', function() {

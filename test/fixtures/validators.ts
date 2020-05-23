@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { nonNegativeInteger, notEmptyArrayRest, validCardIndex, validCardIndexesRest, validCardNumberToTake } from 'src/core/validation/parameterValidators';
 import { validate } from 'src/core/validation/validateMethod';
-import { validCardIndex, validCardIndexesRest, validCardNumberToTake, nonNegativeInteger, notEmptyArrayRest } from 'src/core/validation/parameterValidators';
-import { ValidationUtil, MethodValidationMetadataKey, ParameterType } from 'src/core/validation/validationUtil';
+import { MethodValidationMetadataKey, ParameterType, ValidationUtil } from 'src/core/validation/validationUtil';
 
 export class DecoratedClass {
   @validate

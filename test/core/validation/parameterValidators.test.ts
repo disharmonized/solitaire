@@ -1,5 +1,5 @@
-import { DecoratedClass } from 'test/fixtures/validators';
 import * as assert from 'assert';
+import { DecoratedClass } from 'test/fixtures/validators';
 
 describe('ParameterValidators', function() {
   describe('@cardIndex', function() {

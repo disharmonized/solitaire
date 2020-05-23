@@ -1,6 +1,6 @@
-import { runSeries } from 'testUtils/src/testSeries';
 import * as assert from 'assert';
 import { CardStackSerializer } from 'testUtils/src/cardStackSerializer';
+import { runSeries } from 'testUtils/src/testSeries';
 
 export function addTest(): void {
   type AddMethodParametersOnTop = {
