@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Just another solitaire implementation",
   "engines": {
-    "node": ">= 12 < 13"
+    "node": ">= 8"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",

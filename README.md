@@ -7,7 +7,7 @@ Yet another solitaire implementation written in typescript.
 
 # Prerequisites
 
-- Node.js v12
+- Node.js v8 or greater
 
 # How to
 
