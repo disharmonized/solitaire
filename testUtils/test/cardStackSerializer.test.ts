@@ -1,16 +1,16 @@
 import * as assert from 'assert';
 import { Card, CardStack } from 'src/core';
 import { SpecialRank, StandardRanks, StandardSuit } from 'src/core/standard';
-import { CardStackSerializer } from 'testUtils/src/cardStackSerializer';
+import { StandardCardStackSerializer } from 'testUtils/src/cardStackSerializer';
 import { blackQueenOfSpades, SimpleCardColors } from 'testUtils/src/cardUtil';
 
-describe('CardStackSerializer', function() {
+describe('StandardCardStackSerializer', function() {
   describe('#parseCardFromString()', function() {
     context('isFacedUpIncluded = false', function() {
-      let serializer: CardStackSerializer;
+      let serializer: StandardCardStackSerializer;
 
       beforeEach(function() {
-        serializer = new CardStackSerializer({ isFacedUpIncluded: false });
+        serializer = new StandardCardStackSerializer({ isFacedUpIncluded: false });
       });
       it('should correctly parse card from string', function() {
         const cardString = '100';
@@ -19,26 +19,16 @@ describe('CardStackSerializer', function() {
         assert.equal(card.rank, SpecialRank.ACE);
         assert.equal(card.color, SimpleCardColors.Black);
       });
-      it('should throw error if suit in invalid', function() {
-        const cardString = '190';
-        assert.throws(() => serializer.parseCardFromString(cardString), { message: "Invalid suit 9: it doesn't exist in StandardSuit type" });
-      });
-      it('should throw error if rank in invalid', function() {
-        const cardString = 'F00';
-        assert.throws(() => serializer.parseCardFromString(cardString), {
-          message: `Invalid rank value 15: should be one of [${StandardRanks.join(',')}]`,
-        });
-      });
       it('should throw error if string card length is not equal 3', function() {
         const cardString = '10123';
         assert.throws(() => serializer.parseCardFromString(cardString), { message: 'Invalid stringCard.length 5: length should be 3' });
       });
     });
     context('isFacedUpIncluded = true', function() {
-      let serializer: CardStackSerializer;
+      let serializer: StandardCardStackSerializer;
 
       beforeEach(function() {
-        serializer = new CardStackSerializer({ isFacedUpIncluded: true });
+        serializer = new StandardCardStackSerializer({ isFacedUpIncluded: true });
       });
       it('should throw error if string card length is not equal 4', function() {
         const cardString = '10123';
@@ -68,10 +58,10 @@ describe('CardStackSerializer', function() {
   });
   describe('#cardToString()', function() {
     context('isFacedUpIncluded = false', function() {
-      let serializer: CardStackSerializer;
+      let serializer: StandardCardStackSerializer;
 
       beforeEach(function() {
-        serializer = new CardStackSerializer({ isFacedUpIncluded: false });
+        serializer = new StandardCardStackSerializer({ isFacedUpIncluded: false });
       });
       it('should correctly serialize card to string', function() {
         const card = blackQueenOfSpades();
@@ -80,9 +70,9 @@ describe('CardStackSerializer', function() {
       });
     });
     context('isFacedUpIncluded = true', function() {
-      let serializer: CardStackSerializer;
+      let serializer: StandardCardStackSerializer;
       beforeEach(function() {
-        serializer = new CardStackSerializer({ isFacedUpIncluded: true });
+        serializer = new StandardCardStackSerializer({ isFacedUpIncluded: true });
       });
       it('should correctly serialize card to string if string isFacedUp value is +', function() {
         const card = blackQueenOfSpades();
@@ -98,10 +88,10 @@ describe('CardStackSerializer', function() {
     });
   });
   describe('#stringCardsArrayToCardStack()', function() {
-    let serializer: CardStackSerializer;
+    let serializer: StandardCardStackSerializer;
 
     beforeEach(function() {
-      serializer = new CardStackSerializer({ isFacedUpIncluded: false });
+      serializer = new StandardCardStackSerializer({ isFacedUpIncluded: false });
     });
     it('should correctly deserialize array of strings to card stack', function() {
       const cards = ['100', 'A31', '822'];
@@ -119,10 +109,10 @@ describe('CardStackSerializer', function() {
     });
   });
   describe('#cardsAreEqual()', function() {
-    let serializer: CardStackSerializer;
+    let serializer: StandardCardStackSerializer;
 
     beforeEach(function() {
-      serializer = new CardStackSerializer({ isFacedUpIncluded: false });
+      serializer = new StandardCardStackSerializer({ isFacedUpIncluded: false });
     });
     it('should return correct result for string and object', function() {
       assert.equal(serializer.cardsAreEqual('A00', new Card(StandardSuit.DIAMONDS, 10, SimpleCardColors.Black)), true);
@@ -162,10 +152,10 @@ describe('CardStackSerializer', function() {
     });
   });
   describe('#cardStackToStringArray()', function() {
-    let serializer: CardStackSerializer;
+    let serializer: StandardCardStackSerializer;
 
     beforeEach(function() {
-      serializer = new CardStackSerializer({ isFacedUpIncluded: false });
+      serializer = new StandardCardStackSerializer({ isFacedUpIncluded: false });
     });
     it('should correctly serialize card stack to array of strings', function() {
       const cardStack = new CardStack([
@@ -175,6 +165,24 @@ describe('CardStackSerializer', function() {
       ]);
       const cards = ['100', 'a30', '820'];
       assert.deepEqual(serializer.cardStackToStringArray(cardStack), cards);
+    });
+  });
+  describe('#parseStandardSuit()', function() {
+    it('should correctly parse standard card suit', function() {
+      assert.deepEqual(StandardCardStackSerializer.parseStandardRank('1'), SpecialRank.ACE);
+    });
+    it('should throw error if value is invalid', function() {
+      assert.throws(() => StandardCardStackSerializer.parseStandardRank('abc'), {
+        message: `Invalid rank value abc: should be one of [${StandardRanks.join(',')}]`,
+      });
+    });
+  });
+  describe('#parseStandardRank()', function() {
+    it('should correctly parse standard card rank', function() {
+      assert.deepEqual(StandardCardStackSerializer.parseStandardSuit('0'), StandardSuit.DIAMONDS);
+    });
+    it('should throw error if value is invalid', function() {
+      assert.throws(() => StandardCardStackSerializer.parseStandardSuit('123456'), { message: "Invalid suit 123456: it doesn't exist in StandardSuit type" });
     });
   });
 });

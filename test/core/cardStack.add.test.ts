@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { CardStackSerializer } from 'testUtils/src/cardStackSerializer';
+import { StandardCardStackSerializer } from 'testUtils/src/cardStackSerializer';
 import { runSeries } from 'testUtils/src/testSeries';
 
 export function addTest(): void {
@@ -12,7 +12,7 @@ export function addTest(): void {
     index?: number;
   };
   context('add', function() {
-    let serializer: CardStackSerializer;
+    let serializer: StandardCardStackSerializer;
 
     type AddResult = {
       result: string[];
@@ -38,7 +38,7 @@ export function addTest(): void {
     ];
 
     beforeEach(function() {
-      serializer = new CardStackSerializer({});
+      serializer = new StandardCardStackSerializer({});
     });
     describe('#addToMe', function() {
       const addToMe = (params: AddMethodParameters): AddResult | AddResultErrored => {
@@ -102,7 +102,7 @@ export function addTest(): void {
     });
   });
   context('addOnTop', function() {
-    let serializer: CardStackSerializer;
+    let serializer: StandardCardStackSerializer;
 
     type AddOnTopTestCase = AddMethodParametersOnTop & {
       result: string[];
@@ -115,7 +115,7 @@ export function addTest(): void {
     ];
 
     beforeEach(function() {
-      serializer = new CardStackSerializer({});
+      serializer = new StandardCardStackSerializer({});
     });
     describe('#addToMeOnTop', function() {
       const addToMeOnTop = (params: AddMethodParameters): string[] => {

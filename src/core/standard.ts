@@ -9,8 +9,20 @@ export const enum SpecialRank {
 export const StandardRanks: ReadonlyArray<number> = [SpecialRank.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, SpecialRank.JACK, SpecialRank.QUENN, SpecialRank.KING];
 
 export enum StandardSuit {
-  DIAMONDS = 0, // ♦
-  CLUBS = 1, // ♣
-  HEARTS = 2, // ♥
-  SPADES = 3, // ♠
+  /**
+   * ♦
+   */
+  DIAMONDS = 0,
+  /**
+   * ♣
+   */
+  CLUBS = 1,
+  /**
+   * ♥
+   */
+  HEARTS = 2,
+  /**
+   * ♠
+   */
+  SPADES = 3,
 }

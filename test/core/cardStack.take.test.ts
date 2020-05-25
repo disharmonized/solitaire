@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { CardStackSerializer } from 'testUtils/src/cardStackSerializer';
+import { StandardCardStackSerializer } from 'testUtils/src/cardStackSerializer';
 import { runSeries } from 'testUtils/src/testSeries';
 
 export function takeTest(): void {
@@ -25,7 +25,7 @@ export function takeTest(): void {
     };
 
     describe('#take', function() {
-      let serializer: CardStackSerializer;
+      let serializer: StandardCardStackSerializer;
 
       type TakeTestCase = TakeMethodParameters & TakeResult;
 
@@ -47,7 +47,7 @@ export function takeTest(): void {
       };
 
       beforeEach(function() {
-        serializer = new CardStackSerializer({});
+        serializer = new StandardCardStackSerializer({});
       });
 
       it('should throw error if card stack is empty', function() {
@@ -80,7 +80,7 @@ export function takeTest(): void {
       });
     });
     describe('#takeTop', function() {
-      let serializer: CardStackSerializer;
+      let serializer: StandardCardStackSerializer;
 
       type TakeTopTestCase = TakeTopMethodParameters & TakeResult;
 
@@ -102,7 +102,7 @@ export function takeTest(): void {
       };
 
       beforeEach(function() {
-        serializer = new CardStackSerializer({});
+        serializer = new StandardCardStackSerializer({});
       });
 
       describe('should correctly take top cards of the card stack', function() {

@@ -5,7 +5,7 @@ import { parseCardColorFromString, SimpleCardColor } from 'testUtils/src/cardUti
 export interface Options {
   isFacedUpIncluded?: boolean;
 }
-export class CardStackSerializer {
+export class StandardCardStackSerializer {
   constructor(private options: Options) {
     if (options.isFacedUpIncluded === void 0) {
       this.options.isFacedUpIncluded = false;
@@ -19,18 +19,15 @@ export class CardStackSerializer {
       throw new Error(`Invalid stringCard.length ${stringCard.length}: length should be ${expectedLength}`);
     }
     const [stringRank, stringSuit, stringColor, stringIsFacedUp] = stringCard.toLowerCase().split('');
-    const rank: number = this.parseRank(Number.parseInt(stringRank, 16));
-    const suit: number = Number.parseInt(stringSuit, 10);
-    if (!(stringSuit in StandardSuit)) {
-      throw new Error(`Invalid suit ${stringSuit}: it doesn't exist in StandardSuit type`);
-    }
+    const standardRank: number = StandardCardStackSerializer.parseStandardRank(stringRank);
+    const standardSuit: number = StandardCardStackSerializer.parseStandardSuit(stringSuit);
     const color: CardColor = parseCardColorFromString(stringColor);
     let isFacedUp;
     if (this.options.isFacedUpIncluded) {
       isFacedUp = this.parseIsFacedUp(stringIsFacedUp);
     }
 
-    return new Card(suit, rank, color, isFacedUp);
+    return new Card(standardSuit, standardRank, color, isFacedUp);
   }
 
   isFacedUpToString(isFacedUp: boolean): string {
@@ -81,10 +78,19 @@ export class CardStackSerializer {
     return result;
   }
 
-  parseRank(value: number): number {
-    if (StandardRanks.includes(value)) {
-      return value;
+  static parseStandardRank(value: string): number {
+    const rank = Number.parseInt(value, 16);
+    if (StandardRanks.includes(rank)) {
+      return rank;
     }
     throw new Error(`Invalid rank value ${value}: should be one of [${StandardRanks.join(',')}]`);
+  }
+
+  static parseStandardSuit(value: string): number {
+    const suit = Number.parseInt(value, 10);
+    if (!(suit in StandardSuit)) {
+      throw new Error(`Invalid suit ${value}: it doesn't exist in StandardSuit type`);
+    }
+    return suit;
   }
 }

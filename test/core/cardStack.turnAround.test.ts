@@ -1,13 +1,13 @@
 import * as assert from 'assert';
-import { CardStackSerializer } from 'testUtils/src/cardStackSerializer';
+import { StandardCardStackSerializer } from 'testUtils/src/cardStackSerializer';
 import { runSeries } from 'testUtils/src/testSeries';
 
 export function turnAroundTest(): void {
   context('turnAround', function() {
-    let serializer: CardStackSerializer;
+    let serializer: StandardCardStackSerializer;
 
     beforeEach(function() {
-      serializer = new CardStackSerializer({ isFacedUpIncluded: true });
+      serializer = new StandardCardStackSerializer({ isFacedUpIncluded: true });
     });
 
     type Result = {
