@@ -1,5 +1,6 @@
 import * as assert from 'assert';
-import { CardStack, SpecialRank, Suit } from 'src/core';
+import { CardStack } from 'src/core';
+import { SpecialRank, StandardSuit } from 'src/core/standard';
 import { addTest } from 'test/core/cardStack.add.test';
 import { takeTest } from 'test/core/cardStack.take.test';
 import { turnAroundTest } from 'test/core/cardStack.turnAround.test';
@@ -31,7 +32,7 @@ describe('CardStack', function() {
       const cardStack = new CardStack([blackQueenOfSpades()]);
       const card = cardStack.getCard(0);
       assert.equal(card.rank, SpecialRank.QUENN);
-      assert.equal(card.suit, Suit.SPADES);
+      assert.equal(card.suit, StandardSuit.SPADES);
     });
     it("should throw error if card doesn't exist", function() {
       const cardStack = new CardStack([blackQueenOfSpades()]);

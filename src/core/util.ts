@@ -1,6 +1,4 @@
-import { Rank, RankValueBounds } from 'src/core';
 import {
-  INVALID_RANK_VALUE,
   RANGE_START_VALUE_EQUALS_END_VALUE,
   RANGE_START_VALUE_IS_GREATER_THEN_END_VALUE as RANGE_START_VALUE_IS_GREATER_THAN_END_VALUE,
 } from 'src/core/errorMessages';
@@ -119,11 +117,4 @@ export abstract class ReverseIterableArrayLike<T> implements ReverseIterable<T> 
       },
     };
   }
-}
-
-export function parseRank(value: number): Rank {
-  if (value >= RankValueBounds.START_VALUE && value <= RankValueBounds.END_VALUE) {
-    return value as Rank;
-  }
-  throw new Error(INVALID_RANK_VALUE(value));
 }

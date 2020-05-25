@@ -1,5 +1,5 @@
-import { Card, CardColor, CardStack, Rank, Suit } from 'src/core';
-import { parseRank } from 'src/core/util';
+import { Card, CardColor, CardStack } from 'src/core';
+import { StandardRanks, StandardSuit } from 'src/core/standard';
 import { parseCardColorFromString, SimpleCardColor } from 'testUtils/src/cardUtil';
 
 export interface Options {
@@ -19,10 +19,10 @@ export class CardStackSerializer {
       throw new Error(`Invalid stringCard.length ${stringCard.length}: length should be ${expectedLength}`);
     }
     const [stringRank, stringSuit, stringColor, stringIsFacedUp] = stringCard.toLowerCase().split('');
-    const rank: Rank = parseRank(Number.parseInt(stringRank, 16));
-    const suit: Suit = Number.parseInt(stringSuit, 10);
-    if (!(stringSuit in Suit)) {
-      throw new Error(`Invalid suit ${stringSuit}: it doesn't exist in Suit type`);
+    const rank: number = this.parseRank(Number.parseInt(stringRank, 16));
+    const suit: number = Number.parseInt(stringSuit, 10);
+    if (!(stringSuit in StandardSuit)) {
+      throw new Error(`Invalid suit ${stringSuit}: it doesn't exist in StandardSuit type`);
     }
     const color: CardColor = parseCardColorFromString(stringColor);
     let isFacedUp;
@@ -79,5 +79,12 @@ export class CardStackSerializer {
       result.push(this.cardToString(card));
     }
     return result;
+  }
+
+  parseRank(value: number): number {
+    if (StandardRanks.includes(value)) {
+      return value;
+    }
+    throw new Error(`Invalid rank value ${value}: should be one of [${StandardRanks.join(',')}]`);
   }
 }

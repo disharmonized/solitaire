@@ -1,6 +1,5 @@
 import * as assert from 'assert';
-import { RankValueBounds } from 'src/core';
-import { parseRank, Util } from 'src/core/util';
+import { Util } from 'src/core/util';
 import { DummyReverseIterableClass } from 'test/fixtures/reverseIterableArrays';
 import { runSeries } from 'testUtils/src/testSeries';
 
@@ -30,14 +29,14 @@ describe('Util', function() {
       });
     });
   });
-  describe('#parseRank()', function() {
-    it('should correctly parse value if it is inside boundaries', function() {
-      assert.doesNotThrow(() => parseRank(1));
-    });
-    it('should throw error if value is outside boundaries', function() {
-      assert.throws(() => parseRank(-1), { message: `Invalid rank value -1: should be >= ${RankValueBounds.START_VALUE} and <= ${RankValueBounds.END_VALUE}` });
-    });
-  });
+  // describe('#parseRank()', function() {
+  //   it('should correctly parse value if it is inside boundaries', function() {
+  //     assert.doesNotThrow(() => parseRank(1));
+  //   });
+  //   it('should throw error if value is outside boundaries', function() {
+  //     assert.throws(() => parseRank(-1), { message: `Invalid rank value -1: should be >= ${RankValueBounds.START_VALUE} and <= ${RankValueBounds.END_VALUE}` });
+  //   });
+  // });
 });
 
 describe('ReverseIterableArrayLike', function() {

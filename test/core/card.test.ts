@@ -1,5 +1,6 @@
 import * as assert from 'assert';
-import { Card, SpecialRank, Suit } from 'src/core';
+import { Card } from 'src/core';
+import { SpecialRank, StandardSuit } from 'src/core/standard';
 import { blackQueenOfSpades, SimpleCardColors } from 'testUtils/src/cardUtil';
 
 describe('Card', function() {
@@ -19,7 +20,7 @@ describe('Card', function() {
   });
   describe('#suit()', function() {
     it('should return correct value', function() {
-      assert.equal(card.suit, Suit.SPADES);
+      assert.equal(card.suit, StandardSuit.SPADES);
     });
   });
   describe('#color()', function() {

@@ -1,4 +1,5 @@
-import { Card, CardColor, SpecialRank, Suit } from 'src/core';
+import { Card, CardColor } from 'src/core';
+import { SpecialRank, StandardSuit } from 'src/core/standard';
 
 export class SimpleCardColor implements CardColor {
   constructor(public name?: string, public code?: string) {}
@@ -37,5 +38,5 @@ export function parseCardColorFromString(value: string): SimpleCardColor {
 }
 
 export function blackQueenOfSpades(): Card {
-  return new Card(Suit.SPADES, SpecialRank.QUENN, SimpleCardColors.Black);
+  return new Card(StandardSuit.SPADES, SpecialRank.QUENN, SimpleCardColors.Black);
 }
