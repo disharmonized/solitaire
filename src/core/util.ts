@@ -4,18 +4,18 @@ import {
 } from 'src/core/errorMessages';
 
 /**
- * Class Util. Various utility methods.
+ * Class Util. Contains various utility methods.
  */
 export class Util {
   /**
    * Creates array of range nof non-negative integers. Latter bound is non-inclusive.
-   * Examples:
-   * range(3) returns [0, 1, 2]
-   * range({start: 1, end: 4}) returns [1, 2, 3]
+   * @example
+   * Util.range(3); // returns [0, 1, 2]
+   * Util.range({start: 1, end: 4}); // returns [1, 2, 3]
    * @throws error if input values are not non-negative integers.
    * @throws error if start value is greater than end value.
    * @throws error if start value equals end value.
-   * @param size
+   * @param {number | { start: number; end: number }} sizeOrRange size of range (equivalent of { start: 0; end: size }) or range.
    */
   static range(sizeOrRange: number | { start: number; end: number }): number[] {
     let start: number, length: number;
@@ -41,11 +41,11 @@ export class Util {
  */
 export interface ReverseIterable<T> extends Iterable<T> {
   /**
-   * Switches to reverse iterating
+   * Switches to reverse iterating.
    */
   toReverseIterable(): void;
   /**
-   * Switches to forward iterating
+   * Switches to forward iterating.
    */
   toForwardIterable(): void;
 }
@@ -58,7 +58,7 @@ export abstract class ReverseIterableArrayLike<T> implements ReverseIterable<T> 
   private inReverseMode = false;
 
   /**
-   * Returns ArrayLike object to iterate on
+   * Returns ArrayLike object to iterate on.
    */
   protected abstract getIteratee(): ArrayLike<T>;
 
@@ -78,6 +78,9 @@ export abstract class ReverseIterableArrayLike<T> implements ReverseIterable<T> 
     }
   }
 
+  /**
+   * Returns forward iterator.
+   */
   private getForwardIterator(): Iterator<T> {
     const array = this.getIteratee();
     let current = 0;
@@ -98,6 +101,9 @@ export abstract class ReverseIterableArrayLike<T> implements ReverseIterable<T> 
     };
   }
 
+  /**
+   * Returns reverse iterator.
+   */
   private getReverseIterator(): Iterator<T> {
     const array = this.getIteratee();
     let current = array.length - 1;

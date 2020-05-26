@@ -16,8 +16,9 @@ import { validate } from 'src/core/validation/validateMethod';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
- * Card stack class. Beginning of the stack is the upper card.
- * -  <== zero-index card
+ * Represents card stack. Beginning of the stack is the upper card.
+ * @example
+ * -   <== zero-index card
  * -
  * -
  * === desk
@@ -32,19 +33,23 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Checks if current card stack is empty (contains no cards)
+   * Checks if current card stack is empty (contains no cards).
    */
   get isEmpty(): boolean {
     return this.cards.length === 0;
   }
 
   /**
-   * Gets number of card in the card stack
+   * Returns number of card in the card stack.
    */
   get cardCount(): number {
     return this.cards.length;
   }
 
+  /**
+   * Checks if card with specified index exists in the card stack.
+   * @param {number} cardIndex Card index to check.
+   */
   @validate
   cardExists(@validCardIndex cardIndex: number): boolean {
     return !!this.cards[cardIndex];
@@ -52,7 +57,7 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
 
   /**
    * Returns card in the stack.
-   * @param cardIndex index of the card to get.
+   * @param {number} cardIndex index of the card to get.
    */
   @validate
   getCard(@validCardIndex cardIndex: number): Card {
@@ -63,7 +68,8 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Add card stack to current stack
+   * Adds card stack to current stack.
+   * @example
    *
    * -                                \
    * -    \                            \
@@ -73,8 +79,8 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -                                 /
    * -                                /
    * === desk
-   * @param cardIndex Index of the card in the current stack where to add new stack
-   * @param cardStack New card stack
+   * @param {CardStack} cardStack New card stack.
+   * @param {number }cardIndex Index of the card in the current stack where to add new stack.
    */
   @validate
   addToMe(cardStack: CardStack, @validCardIndex cardIndex?: number): void {
@@ -107,8 +113,8 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Add current card stack to another one
-   *
+   * Adds current card stack to the another one.
+   * @example
    * -                                \
    * -    \                            \
    * -     current card stack           \
@@ -117,16 +123,16 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -                                 /
    * -                                /
    * === desk
-   * @param cardIndex Index of the card in the current stack where to add new stack
-   * @param cardStack Another card stack
+   * @param {CardStack} cardStack Another card stack.
+   * @param {number} cardIndex Index of the card in the another card stack where to add current one.
    */
   addMyselfTo(cardStack: CardStack, @validCardIndex cardIndex?: number): void {
     cardStack.addToMe(this, cardIndex);
   }
 
   /**
-   * Adds card stack on top of the current stack
-   *
+   * Adds card stack on top of the current stack.
+   * @example
    * - \
    * -  Card stack to be added
    * - /
@@ -134,8 +140,7 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -  Current stack
    * - /
    * === desk
-   * @param cardIndex Index of the card in the current stack where to add new stack
-   * @param cardStack Card stack
+   * @param {CardStack} cardStack Card stack.
    */
   addToMeOnTop(cardStack: CardStack): void {
     if (this.isEmpty) {
@@ -146,8 +151,8 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Adds current card stack on top of the other stack
-   *
+   * Adds current card stack on top of the other stack.
+   * @example
    * - \
    * -  Current stack
    * - /
@@ -155,14 +160,14 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -  Card stack to be added to
    * - /
    * === desk
-   * @param cardStack Card stack
+   * @param {CardStack} cardStack Card stack where to add the current one.
    */
   addMyselfOnTop(cardStack: CardStack): void {
     cardStack.addToMeOnTop(this);
   }
 
   /**
-   * Takes card stack from the current stack
+   * Takes card stack from the current stack.
    * -
    * -
    * -  \  first card to take
@@ -170,9 +175,8 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
    * -  /
    * -
    * === desk
-   * @param firstCardIndex Index of the first card in the current stack
-   * @param numberOfCardsToTake Number of cards to take
-   * @returns {CardStack}
+   * @param {number} firstCardIndex Index of the first card in the current stack to be taken.
+   * @param {number} numberOfCardsToTake Number of cards to take.
    */
   @validate
   take(@validCardIndex firstCardIndex: number, @validCardNumberToTake numberOfCardsToTake: number): CardStack {
@@ -189,16 +193,16 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Takes card stack from the top of the current stack
+   * Takes card stack from the top of the current stack.
    * -  \
    * -  .. n cards
    * -  /
    * -
    * === desk
-   * @param numberOfCardsToTake Number of cards to take
+   * @param {number} numberOfCardsToTake Number of cards to take.
    */
   @validate
-  takeTop(@validCardNumberToTake numberOfCardsToTake): CardStack {
+  takeTop(@validCardNumberToTake numberOfCardsToTake: number): CardStack {
     if (numberOfCardsToTake > this.cardCount) {
       throw new Error(CANNOT_TAKE_CARDS_NOT_ENOUGH_CARDS(numberOfCardsToTake, this.cardCount, this.alias));
     }
@@ -206,8 +210,8 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Turns cards around
-   * @param {...number[]} cardsIndexes indexes of cards
+   * Turns cards around.
+   * @param {...number[]} cardsIndexes Indexes of cards to turn around.
    */
   @validate
   turnCardsAround(@validCardIndexesRest @notEmptyArrayRest ...cardsIndexes: number[]): void {
@@ -226,9 +230,9 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Turns card range around
-   * @param {number} startIndex start card index
-   * @param {number} endIndex end card index, non-inclusive
+   * Turns card range around.
+   * @param {number} startIndex Start card index.
+   * @param {number} endIndex End card index, non-inclusive.
    */
   @validate
   turnCardRangeAround(@validCardIndex startIndex: number, @validCardIndex endIndex: number): void {
@@ -243,8 +247,8 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Turns top cards around
-   *  @param numberOfCards number of top cards to turn around
+   * Turns top cards around.
+   *  @param {number} numberOfCards Number of top cards to turn around.
    */
   @validate
   turnTopCardsAround(@nonNegativeInteger numberOfCards: number): void {
@@ -259,7 +263,7 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   }
 
   /**
-   * Turns top card around
+   * Turns top card around.
    */
   turnTopCardAround(): void {
     this.turnCardsAround(0);

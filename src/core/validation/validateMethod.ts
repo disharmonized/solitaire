@@ -1,6 +1,13 @@
 import { UNKNOWN_PARAMETER_TYPE } from 'src/core/errorMessages';
 import { ParameterType, ValidationUtil } from 'src/core/validation/validationUtil';
 
+/**
+ * Implements @validate method decorator.
+ * @param {Object} target Class prototype.
+ * @param {string} propertyName Name of the property.
+ * @param {number} descriptor Property descriptor.
+ * @throws Error if parameterType passed into descriptor metadata is unknown.
+ */
 export function validate(target: unknown, propertyName: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   const originalMethod = descriptor.value;
   descriptor.value = function(..._args: unknown[]): unknown {
