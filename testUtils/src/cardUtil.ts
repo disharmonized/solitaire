@@ -13,6 +13,7 @@ export class SimpleCardColors {
   static Red = new SimpleCardColor('red', '1');
   static Blue = new SimpleCardColor('blue', '2');
   static Green = new SimpleCardColor('green', '3');
+  static All = [SimpleCardColors.Black, SimpleCardColors.Red, SimpleCardColors.Blue, SimpleCardColors.Green];
 }
 
 export function parseCardColorFromString(value: string): SimpleCardColor {

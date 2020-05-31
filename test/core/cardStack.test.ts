@@ -2,6 +2,7 @@ import * as assert from 'assert';
 import { CardStack } from 'src/core';
 import { SpecialRank, StandardSuit } from 'src/core/standard';
 import { addTest } from 'test/core/cardStack.add.test';
+import { sortTest } from 'test/core/cardStack.sort.test';
 import { takeTest } from 'test/core/cardStack.take.test';
 import { turnAroundTest } from 'test/core/cardStack.turnAround.test';
 import { blackQueenOfSpades } from 'testUtils/src/cardUtil';
@@ -47,5 +48,6 @@ describe('CardStack', function() {
     addTest();
     takeTest();
     turnAroundTest();
+    sortTest();
   });
 });

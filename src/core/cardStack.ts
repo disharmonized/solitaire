@@ -268,4 +268,12 @@ export class CardStack extends ReverseIterableArrayLike<Card> {
   turnTopCardAround(): void {
     this.turnCardsAround(0);
   }
+
+  /**
+   * Sorts cards.
+   * @param {(a: Card, b: Card) => -1 | 1 | 0} compare Compare function. Works the same as for Array.prototype.sort().
+   */
+  sort(compare: (a: Card, b: Card) => -1 | 1 | 0): void {
+    this.cards.sort(compare);
+  }
 }
