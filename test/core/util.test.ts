@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { Util } from 'src/core/util';
+import { Anomalies, Util } from 'src/core/util';
 import { DummyReverseIterableClass } from 'test/fixtures/reverseIterableArrays';
 import { runSeries } from 'testUtils/src/testSeries';
 
@@ -29,14 +29,52 @@ describe('Util', function() {
       });
     });
   });
-  // describe('#parseRank()', function() {
-  //   it('should correctly parse value if it is inside boundaries', function() {
-  //     assert.doesNotThrow(() => parseRank(1));
-  //   });
-  //   it('should throw error if value is outside boundaries', function() {
-  //     assert.throws(() => parseRank(-1), { message: `Invalid rank value -1: should be >= ${RankValueBounds.START_VALUE} and <= ${RankValueBounds.END_VALUE}` });
-  //   });
-  // });
+  describe('#compareArraysAndFindAnomalies', () => {
+    type TestCase = {
+      target: number[];
+      validatee: number[];
+      validator: (value: number) => boolean;
+      result: Anomalies;
+    };
+    const runTests = (tests: TestCase[]): void => {
+      runSeries(tests, test => {
+        const result = Util.compareArraysAndFindAnomalies(test.target, test.validatee, test.validator);
+        assert.deepEqual(result, test.result);
+      });
+    };
+    describe('should correctly detect invalid indexes', () => {
+      const validator = (value: number): boolean => value <= 3;
+      const tests = [{ target: [0, 1, 2, 3, 4, 5], validatee: [0, 1, 2, 3, 4, 5], validator, result: { notFound: [], invalid: [4, 5], duplicates: [] } }];
+      runTests(tests);
+    });
+    describe('should correctly detect not found indexes', () => {
+      const validator = (): boolean => true;
+      const tests = [
+        { target: [0, 1, 2, 3], validatee: [0, 1, -1, -2, 3], validator, result: { notFound: [-1, -2], invalid: [], duplicates: [] } },
+        { target: [], validatee: [0, 1, 2], validator, result: { notFound: [0, 1, 2], invalid: [], duplicates: [] } },
+      ];
+      runTests(tests);
+    });
+    describe('should correctly detect duplicate indexes', () => {
+      const validator = (): boolean => true;
+      const tests = [{ target: [0, 1, 2, 3], validatee: [0, 1, 3, 2, 2, 3], validator, result: { notFound: [], invalid: [], duplicates: [2, 3] } }];
+      runTests(tests);
+    });
+    describe('should correctly detect multiple anomalies', () => {
+      const validator = (value: number): boolean => value <= 3 && value >= 0;
+      const tests = [
+        { target: [0, 1, 2, 3], validatee: [0, 1, 3, 2, 2, 3, -1, -2], validator, result: { notFound: [-1, -2], invalid: [-1, -2], duplicates: [2, 3] } },
+        {
+          target: [],
+          validatee: [0, 1, 3, 2, 2, 3, -1, -2, 4, 5],
+          validator,
+          result: { notFound: [0, 1, 3, 2, -1, -2, 4, 5], invalid: [-1, -2, 4, 5], duplicates: [2, 3] },
+        },
+        { target: [0, 1, 2, 3], validatee: [], validator, result: { notFound: [], invalid: [], duplicates: [] } },
+      ];
+      runTests(tests);
+    });
+  });
 });
 
 describe('ReverseIterableArrayLike', function() {

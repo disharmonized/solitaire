@@ -3,6 +3,12 @@ import {
   RANGE_START_VALUE_IS_GREATER_THEN_END_VALUE as RANGE_START_VALUE_IS_GREATER_THAN_END_VALUE,
 } from 'src/core/errorMessages';
 
+export type Anomalies = {
+  notFound: number[];
+  invalid: number[];
+  duplicates: number[];
+};
+
 /**
  * Class Util. Contains various utility methods.
  */
@@ -33,6 +39,47 @@ export class Util {
       start = sizeOrRange.start;
     }
     return Array.from({ length }, (_, i) => start + i);
+  }
+
+  /**
+   * Compares first array/iterable with the second one and finds anomalies:
+   * elements in second array/iterable that are not satisfy validator function,
+   * elements in second array/iterable that are not exist in the first one,
+   * duplicate elements in the second array.
+   * @param {Iterable<number> | number[]} target First array/iterable
+   * @param {Iterable<number> | number[]} validatee Second array/iterable
+   * @param validatorFn Validator function
+   * @returns {Anomalies}
+   */
+  static compareArraysAndFindAnomalies(
+    target: Iterable<number> | number[],
+    validatee: Iterable<number> | number[],
+    validatorFn: (value: number) => boolean,
+  ): Anomalies {
+    const notFound = new Set<number>();
+    const invalid = new Set<number>();
+    const duplicates = new Set<number>();
+    const dupsChecked = new Set<number>();
+
+    const targetArray = Array.isArray(target) ? target : Array.from(target);
+    for (const v of validatee) {
+      if (!validatorFn(v)) {
+        invalid.add(v);
+      }
+      if (!dupsChecked.has(v)) {
+        if (!targetArray.includes(v)) {
+          notFound.add(v);
+        }
+        dupsChecked.add(v);
+      } else {
+        duplicates.add(v);
+      }
+    }
+    return {
+      notFound: Array.from(notFound),
+      invalid: Array.from(invalid),
+      duplicates: Array.from(duplicates),
+    };
   }
 }
 
